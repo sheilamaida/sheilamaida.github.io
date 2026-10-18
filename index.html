@@ -1,52 +1,334 @@
-<DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SMK Unggulan Nusantara - Berprestasi & Berkarakter</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
+    <title>Kopontren Digital - Koperasi Pesantren</title>
+    <!-- Tailwind CSS untuk styling cepat dan modern -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        /* CSS Styling */
-        :root {
-            --primary: #10b981;
-            --primary-dark: #059669;
-            --secondary: #0f172a;
-            --accent: #3b82f6;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-color: #1e293b;
-            --text-muted: #64748b;
-            --transition: all 0.3s ease;
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <!-- NAVBAR -->
+    <header class="bg-emerald-700 text-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-store text-2xl text-amber-300"></i>
+                <span class="text-xl font-bold tracking-wide">Kopontren Digital</span>
+            </div>
+            <nav class="hidden md:flex space-x-6 font-medium">
+                <button onclick="switchTab('beranda')" class="hover:text-amber-300 transition">Beranda</button>
+                <button onclick="switchTab('katalog')" class="hover:text-amber-300 transition">Katalog Produk</button>
+                <button onclick="switchTab('simpanan')" class="hover:text-amber-300 transition">Cek Simpanan</button>
+                <button onclick="switchTab('kasir')" class="hover:text-amber-300 transition">Kasir (POS)</button>
+            </nav>
+            <div class="md:hidden">
+                <button onclick="toggleMobileMenu()" class="text-white focus:outline-none">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Nav Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-emerald-800 px-4 pt-2 pb-4 space-y-2">
+            <button onclick="switchTab('beranda'); toggleMobileMenu();" class="block w-text-left hover:text-amber-300 py-1">Beranda</button>
+            <button onclick="switchTab('katalog'); toggleMobileMenu();" class="block w-text-left hover:text-amber-300 py-1">Katalog Produk</button>
+            <button onclick="switchTab('simpanan'); toggleMobileMenu();" class="block w-text-left hover:text-amber-300 py-1">Cek Simpanan</button>
+            <button onclick="switchTab('kasir'); toggleMobileMenu();" class="block w-text-left hover:text-amber-300 py-1">Kasir (POS)</button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="container mx-auto px-4 py-8">
+
+        <!-- TAB 1: BERANDA -->
+        <section id="tab-beranda" class="space-y-8">
+            <div class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white rounded-2xl p-8 md:p-12 shadow-lg flex flex-col md:flex-row items-center justify-between">
+                <div class="space-y-4 md:w-1/2">
+                    <span class="bg-amber-400 text-emerald-900 text-xs font-bold uppercase px-3 py-1 rounded-full">Kemandirian Ekonomi Santri</span>
+                    <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">Selamat Datang di Koperasi Pesantren</h1>
+                    <p class="text-emerald-100 text-sm md:text-base">Pusat pemenuhan kebutuhan santri, unit usaha mandiri, dan layanan simpan pinjam digital yang transparan dan amanah.</p>
+                    <div class="pt-2">
+                        <button onclick="switchTab('katalog')" class="bg-amber-400 hover:bg-amber-500 text-emerald-900 font-bold px-6 py-3 rounded-xl shadow transition">Lihat Produk</button>
+                    </div>
+                </div>
+                <div class="mt-8 md:mt-0 md:w-1/3 text-center">
+                    <i class="fa-solid fa-handshake-angle text-9xl text-amber-300 opacity-90"></i>
+                </div>
+            </div>
+
+            <!-- Fitur Ungkapan Singkat -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-start space-x-4">
+                    <div class="bg-emerald-100 text-emerald-700 p-3 rounded-lg"><i class="fa-solid fa-box-open text-xl"></i></div>
+                    <div>
+                        <h3 class="font-bold text-lg mb-1">Produk Santri</h3>
+                        <p class="text-sm text-gray-600">Menjual perlengkapan harian, buku, seragam, dan karya kreatif santri.</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-start space-x-4">
+                    <div class="bg-emerald-100 text-emerald-700 p-3 rounded-lg"><i class="fa-solid fa-wallet text-xl"></i></div>
+                    <div>
+                        <h3 class="font-bold text-lg mb-1">Simpanan Transparan</h3>
+                        <p class="text-sm text-gray-600">Cek simpanan pokok, wajib, dan sukarela secara online dan real-time.</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-start space-x-4">
+                    <div class="bg-emerald-100 text-emerald-700 p-3 rounded-lg"><i class="fa-solid fa-cash-register text-xl"></i></div>
+                    <div>
+                        <h3 class="font-bold text-lg mb-1">Sistem POS Terpadu</h3>
+                        <p class="text-sm text-gray-600">Pencatatan kasir cepat untuk transaksi belanja harian di lingkungan pesantren.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: KATALOG PRODUK -->
+        <section id="tab-katalog" class="hidden space-y-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">Katalog Unit Usaha</h2>
+                    <p class="text-sm text-gray-500">Pilihan produk berkualitas dari unit usaha mandiri pesantren.</p>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <input type="text" id="searchProduct" onkeyup="filterProducts()" placeholder="Cari produk..." class="border border-gray-300 px-4 py-2 rounded-lg text-sm focus:outline-none focus:border-emerald-600">
+                </div>
+            </div>
+
+            <!-- Grid Produk -->
+            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Produk akan dimuat via JS -->
+            </div>
+        </section>
+
+        <!-- TAB 3: CEK SIMPANAN ANGGOTA -->
+        <section id="tab-simpanan" class="hidden space-y-6 max-w-xl mx-auto">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                <h2 class="text-2xl font-bold text-gray-800">Cek Status Simpanan Anggota</h2>
+                <p class="text-sm text-gray-500">Masukkan Nomor Induk Santri (NIS) atau ID Anggota untuk melihat rincian simpanan koperasi.</p>
+                
+                <div class="flex space-x-2">
+                    <input type="text" id="inputNis" placeholder="Contoh: 251615 (Coba ketik: 123)" class="flex-1 border border-gray-300 px-4 py-2 rounded-lg text-sm focus:outline-none focus:border-emerald-600">
+                    <button onclick="checkSimpanan()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-5 py-2 rounded-lg text-sm transition">Cek</button>
+                </div>
+
+                <!-- Hasil Pencarian Simpanan -->
+                <div id="resultSimpanan" class="hidden mt-6 border-t pt-4 space-y-3">
+                    <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-100 space-y-2">
+                        <p class="text-xs text-emerald-800 font-bold uppercase">Informasi Anggota</p>
+                        <p class="text-sm font-semibold text-gray-750">Nama: <span id="resNama" class="font-normal text-gray-600">-</span></p>
+                        <p class="text-sm font-semibold text-gray-750">NIS/ID: <span id="resId" class="font-normal text-gray-600">-</span></p>
+                    </div>
+                    <div class="grid grid-cols-3 gap-3 text-center">
+                        <div class="bg-gray-50 p-3 rounded-lg border">
+                            <span class="block text-xs text-gray-500">Pokok</span>
+                            <span id="resPokok" class="font-bold text-sm text-emerald-700">Rp 0</span>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg border">
+                            <span class="block text-xs text-gray-500">Wajib</span>
+                            <span id="resWajib" class="font-bold text-sm text-emerald-700">Rp 0</span>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg border">
+                            <span class="block text-xs text-gray-500">Sukarela</span>
+                            <span id="resSukarela" class="font-bold text-sm text-emerald-700">Rp 0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: KASIR (POS) -->
+        <section id="tab-kasir" class="hidden space-y-6">
+            <h2 class="text-2xl font-bold text-gray-800">Simulasi Kasir Koperasi (POS)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Daftar Barang untuk Kasir -->
+                <div class="md:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                    <h3 class="font-bold text-lg text-gray-700">Pilih Barang</h3>
+                    <div id="posProductGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- POS Item lewat JS -->
+                    </div>
+                </div>
+                <!-- Keranjang & Total Pembayaran -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-4 flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-700 mb-3">Keranjang Belanja</h3>
+                        <div id="posCartList" class="space-y-2 max-h-48 overflow-y-auto text-sm divide-y">
+                            <p class="text-gray-400 text-center py-4">Keranjang masih kosong</p>
+                        </div>
+                    </div>
+                    <div class="border-t pt-4 space-y-3">
+                        <div class="flex justify-between font-bold text-lg">
+                            <span>Total:</span>
+                            <span id="posTotal" class="text-emerald-600">Rp 0</span>
+                        </div>
+                        <button onclick="checkout()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl transition shadow">Proses Transaksi</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t mt-12 py-6 text-center text-xs text-gray-500">
+        <p>&copy; 2026 Kopontren Digital. Dibuat untuk Kemandirian Pesantren Berkelanjutan.</p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Data Produk Mockup
+        const products = [
+            { id: 1, name: "Seragam Santri Putra", price: 125000, category: "Pakaian", stock: 15, icon: "fa-shirt" },
+            { id: 2, name: "Kitab Kuning Fikih", price: 45000, category: "Kitab", stock: 30, icon: "fa-book" },
+            { id: 3, name: "Peci Hitam Nasional", price: 25000, category: "Atribut", stock: 20, icon: "fa-hat-cowboy" },
+            { id: 4, name: "Madu Herbal Santri 500ml", price: 65000, category: "Kuliner", stock: 10, icon: "fa-jar" }
+        ];
+
+        // Data Simpanan Mockup
+        const databaseSimpanan = {
+            "123": { nama: "Ahmad Fauzi", nis: "12345", pokok: 100000, wajib: 250000, sukarela: 75000 },
+            "456": { nama: "Siti Aminah", nis: "12346", pokok: 100000, wajib: 300000, sukarela: 150000 }
+        };
+
+        let cart = [];
+
+        // Tab Switcher Function
+        function switchTab(tabId) {
+            const tabs = ['beranda', 'katalog', 'simpanan', 'kasir'];
+            tabs.forEach(t => {
+                document.getElementById('tab-' + t).classList.add('hidden');
+            });
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            
+            if(tabId === 'katalog') renderProducts(products);
+            if(tabId === 'kasir') renderPosProducts();
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-            scroll-behavior: smooth;
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
         }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            overflow-x: hidden;
+        // Render Katalog Produk
+        function renderProducts(list) {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+            if(list.length === 0) {
+                grid.innerHTML = '<p class="col-span-4 text-center text-gray-400 py-6">Produk tidak ditemukan.</p>';
+                return;
+            }
+            list.forEach(p => {
+                grid.innerHTML += `
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between">
+                        <div>
+                            <div class="h-32 bg-emerald-50 rounded-lg flex items-center justify-center text-emerald-600 mb-3">
+                                <i class="fa-solid ${p.icon} text-4xl"></i>
+                            </div>
+                            <span class="text-xs text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded font-medium">${p.category}</span>
+                            <h3 class="font-bold text-gray-800 mt-2">${p.name}</h3>
+                            <p class="text-xs text-gray-500 mt-1">Stok: ${p.stock}</p>
+                        </div>
+                        <div class="mt-4 flex justify-between items-center">
+                            <span class="font-bold text-emerald-600 text-sm">Rp ${p.price.toLocaleString()}</span>
+                            <button onclick="addToCart(${p.id})" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs transition"><i class="fa-solid fa-cart-plus"></i> Beli</button>
+                        </div>
+                    </div>
+                `;
+            });
         }
 
-        /* Header & Navigation */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 8%;
-            background: rgba(255, 255, 255, 0.9);
-            bac
+        function filterProducts() {
+            const keyword = document.getElementById('searchProduct').value.toLowerCase();
+            const filtered = products.filter(p => p.name.toLowerCase().includes(keyword) || p.category.toLowerCase().includes(keyword));
+            renderProducts(filtered);
+        }
+
+        // Cek Simpanan
+        function checkSimpanan() {
+            const nis = document.getElementById('inputNis').value.trim();
+            const resultBox = document.getElementById('resultSimpanan');
+            
+            if(databaseSimpanan[nis]) {
+                const data = databaseSimpanan[nis];
+                document.getElementById('resNama').innerText = data.nama;
+                document.getElementById('resId').innerText = data.nis;
+                document.getElementById('resPokok').innerText = 'Rp ' + data.pokok.toLocaleString();
+                document.getElementById('resWajib').innerText = 'Rp ' + data.wajib.toLocaleString();
+                document.getElementById('resSukarela').innerText = 'Rp ' + data.sukarela.toLocaleString();
+                resultBox.classList.remove('hidden');
+            } else {
+                alert('Data simpanan dengan ID/NIS tersebut tidak ditemukan. Coba ketik "123" atau "456".');
+                resultBox.classList.add('hidden');
+            }
+        }
+
+        // POS Kasir Functions
+        function renderPosProducts() {
+            const grid = document.getElementById('posProductGrid');
+            grid.innerHTML = '';
+            products.forEach(p => {
+                grid.innerHTML += `
+                    <div class="border p-3 rounded-lg flex justify-between items-center bg-gray-50">
+                        <div>
+                            <h4 class="font-bold text-sm">${p.name}</h4>
+                            <p class="text-xs text-emerald-600 font-semibold">Rp ${p.price.toLocaleString()}</p>
+                        </div>
+                        <button onclick="addToCart(${p.id})" class="bg-emerald-600 text-white px-3 py-1 rounded text-xs hover:bg-emerald-700">+</button>
+                    </div>
+                `;
+            });
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existing = cart.find(item => item.id === productId);
+            if(existing) {
+                existing.qty++;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+            updateCartUI();
+            // Pindah tab ke kasir jika dibeli lewat katalog
+            // switchTab('kasir');
+        }
+
+        function updateCartUI() {
+            const cartList = document.getElementById('posCartList');
+            const totalElement = document.getElementById('posTotal');
+            cartList.innerHTML = '';
+            
+            if(cart.length === 0) {
+                cartList.innerHTML = '<p class="text-gray-400 text-center py-4">Keranjang masih kosong</p>';
+                totalElement.innerText = 'Rp 0';
+                return;
+            }
+
+            let total = 0;
+            cart.forEach(item => {
+                let subtotal = item.price * item.qty;
+                total += subtotal;
+                cartList.innerHTML += `
+                    <div class="flex justify-between items-center py-2">
+                        <div>
+                            <p class="font-medium text-sm">${item.name}</p>
+                            <p class="text-xs text-gray-500">${item.qty} x Rp ${item.price.toLocaleString()}</p>
+                        </div>
+                        <span class="font-bold text-sm">Rp ${subtotal.toLocaleString()}</span>
+                    </div>
+                `;
+            });
+            totalElement.innerText = 'Rp ' + total.toLocaleString();
+        }
+
+        function checkout() {
+            if(cart.length === 0) {
+                alert('Keranjang masih kosong!');
+                return;
+            }
+            alert('Transaksi berhasil diproses! Struk digital tercatat pada sistem.');
+            cart = [];
+            updateCartUI();
+        }
+    </script>
+</body>
+</html>
