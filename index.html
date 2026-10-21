@@ -49,7 +49,8 @@
                 <button type="button" onclick="bukaTab('katalog')" class="hover:text-amber-800 px-3 py-1.5 rounded-lg">Katalog Makanan</button>
                 <button type="button" onclick="bukaTab('wali')" class="hover:text-amber-800 px-3 py-1.5 rounded-lg">Wali Santri</button>
                 <button type="button" onclick="bukaTab('ppob')" class="hover:text-amber-800 px-3 py-1.5 rounded-lg">Pulsa/Token</button>
-                <button type="button" onclick="bukaTab('admin')" class="bg-rose-100 text-rose-800 hover:bg-rose-200 px-3 py-1.5 rounded-lg border border-rose-300">Hasil Pesanan (Pengurus)</button>
+                <button type="button" onclick="bukaTab('admin')" class="bg-rose-100 text-rose-800 hover:bg-rose-200 px-3 py-1.5 rounded-lg border border-rose-300">Hasil Pesanan</button>
+                <button type="button" onclick="bukaTab('logout')" class="bg-amber-500 hover:bg-amber-600 text-amber-950 px-3 py-1.5 rounded-lg shadow-sm">Logout</button>
             </nav>
 
             <!-- Jam Realtime Desktop & Keranjang Belanja -->
@@ -241,6 +242,34 @@
             </div>
         </section>
 
+        <!-- TAB 7: HALAMAN LOGOUT & KIRIM KE WHATSAPP -->
+        <section id="tab-logout" class="konten-tab max-w-md mx-auto py-6">
+            <div class="bg-white border-2 border-amber-300 p-6 md:p-8 rounded-3xl shadow-xl space-y-6 text-center">
+                <div class="w-16 h-16 bg-rose-100 text-rose-700 rounded-2xl mx-auto flex items-center justify-center text-3xl font-extrabold shadow-sm">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </div>
+                <div class="space-y-1">
+                    <h2 class="text-2xl font-extrabold text-slate-900">Keluar Sesi (Logout)</h2>
+                    <p class="text-xs text-slate-500">Data sesi aktivitas Anda saat ini akan direkap dan dikirimkan langsung ke nomor WhatsApp pemilik (<strong class="text-amber-700">089523248631</strong>).</p>
+                </div>
+
+                <div class="space-y-4 text-left">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Catatan / Alasan Keluar (Opsional)</label>
+                        <textarea id="catatanLogout" rows="2" placeholder="Contoh: Selesai belanja, terima kasih." class="w-full border border-amber-300 bg-amber-50/50 px-4 py-2.5 rounded-xl text-xs font-semibold"></textarea>
+                    </div>
+
+                    <button type="button" onclick="prosesLogoutWA()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3.5 rounded-xl shadow-md transition text-xs uppercase flex items-center justify-center">
+                        <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Konfirmasi Logout & Kirim ke WA
+                    </button>
+                    
+                    <button type="button" onclick="bukaTab('beranda')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl transition text-xs">
+                        Batalkan & Kembali
+                    </button>
+                </div>
+            </div>
+        </section>
+
         <!-- TAMPILAN KERANJANG BELANJA -->
         <section id="wadahKeranjang" class="hidden bg-white border-2 border-amber-400 p-6 rounded-3xl shadow-2xl space-y-4 max-w-lg mx-auto mt-8">
             <div class="flex justify-between items-center border-b border-amber-200 pb-3">
@@ -291,6 +320,7 @@
 
         let keranjang = [];
         let dataPesananAdmin = JSON.parse(localStorage.getItem('rafa_orders')) || [];
+        const targetNomorWA = "6289523248631"; // Nomor WhatsApp tujuan
 
         // Update Jam & Tanggal Realtime
         function perbaruiJam() {
@@ -453,7 +483,7 @@
                          `*TOTAL: Rp ${total.toLocaleString('id-ID')}*\n\n` +
                          `Mohon disiapkan dan diantarkan ke kamar santri. Terima kasih!`;
 
-            window.open(`https://wa.me/?text=${encodeURIComponent(waTeks)}`, '_blank');
+            window.open(`https://wa.me/${targetNomorWA}?text=${encodeURIComponent(waTeks)}`, '_blank');
             keranjang = [];
             perbaruiKeranjang();
             tutupKeranjang();
@@ -502,6 +532,25 @@
                 localStorage.removeItem('rafa_orders');
                 tampilkanPesananAdmin();
             }
+        }
+
+        // Fungsi Kirim Data Logout ke WhatsApp Kamu
+        function prosesLogoutWA() {
+            const catatan = document.getElementById('catatanLogout').value || 'Tidak ada catatan';
+            const waktuLogout = new Date().toLocaleString('id-ID');
+            const statusPeran = document.getElementById('roleAkunAktif').innerText;
+
+            let pesanLogout = `*LAPORAN LOGOUT AKUN - RAFA MART*\n\n` +
+                              `*Status Sesi:* ${statusPeran}\n` +
+                              `*Waktu Keluar:* ${waktuLogout}\n` +
+                              `*Catatan Pengguna:* ${catatan}\n\n` +
+                              `Sesi pengguna telah diakhiri dengan sukses dari sistem koperasi pesantren.`;
+
+            // Membuka WhatsApp langsung ke nomor 089523248631
+            window.open(`https://wa.me/${targetNomorWA}?text=${encodeURIComponent(pesanLogout)}`, '_blank');
+            
+            // Kembalikan ke halaman login utama
+            bukaTab('login');
         }
 
         // Muat katalog saat pertama kali dibuka
