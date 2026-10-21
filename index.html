@@ -3,332 +3,530 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kopontren Digital - Koperasi Pesantren</title>
-    <!-- Tailwind CSS untuk styling cepat dan modern -->
+    <title>Rafa Mart - Koperasi Pondok Pesantren</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .konten-tab { display: none; }
+        .konten-tab.aktif { display: block; }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
+<body class="bg-amber-50/50 text-slate-800 min-h-screen flex flex-col justify-between">
 
-    <!-- NAVBAR -->
-    <header class="bg-emerald-700 text-white shadow-md sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <i class="fa-solid fa-store text-2xl text-amber-300"></i>
-                <span class="text-xl font-bold tracking-wide">Kopontren Digital</span>
+    <!-- HEADER & NAVBAR UTAMA -->
+    <header class="bg-white border-b border-amber-200 sticky top-0 z-30 shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
+            
+            <!-- Logo & Jam Real-Time -->
+            <div class="flex items-center justify-between w-full md:w-auto">
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="bukaTab('beranda')">
+                    <div class="w-10 h-10 rounded-2xl bg-amber-400 flex items-center justify-center text-amber-950 font-extrabold shadow-sm">
+                        <i class="fa-solid fa-store text-lg"></i>
+                    </div>
+                    <div>
+                        <span class="text-lg font-extrabold text-slate-900 tracking-tight">RAFA MART</span>
+                        <span id="roleAkunAktif" class="block text-[10px] text-amber-800 font-bold uppercase tracking-wider">Kopontren Digital</span>
+                    </div>
+                </div>
+
+                <!-- Jam Realtime Mobile -->
+                <div class="md:hidden text-right">
+                    <div id="jamMobile" class="text-xs font-extrabold text-amber-900">--:--:--</div>
+                    <div id="tglMobile" class="text-[9px] text-slate-500">----</div>
+                </div>
             </div>
-            <nav class="hidden md:flex space-x-6 font-medium">
-                <button onclick="switchTab('beranda')" class="hover:text-amber-300 transition">Beranda</button>
-                <button onclick="switchTab('katalog')" class="hover:text-amber-300 transition">Katalog Produk</button>
-                <button onclick="switchTab('simpanan')" class="hover:text-amber-300 transition">Cek Simpanan</button>
-                <button onclick="switchTab('kasir')" class="hover:text-amber-300 transition">Kasir (POS)</button>
+
+            <!-- Tombol Navigasi Tab -->
+            <nav class="flex flex-wrap items-center justify-center gap-1 md:gap-2 text-xs font-bold text-slate-700">
+                <button type="button" onclick="bukaTab('login')" class="bg-amber-100 hover:bg-amber-200 text-amber-950 px-3 py-1.5 rounded-lg border border-amber-300">Halaman Login</button>
+                <button type="button" onclick="bukaTab('beranda')" class="hover:text-amber-800 px-3 py-1.5 rounded-lg">Beranda</button>
+                <button type="button" onclick="bukaTab('katalog')" class="hover:text-amber-800 px-3 py-1.5 rounded-lg">Katalog Makanan</button>
+                <button type="button" onclick="bukaTab('wali')" class="hover:text-amber-800 px-3 py-1.5 rounded-lg">Wali Santri</button>
+                <button type="button" onclick="bukaTab('ppob')" class="hover:text-amber-800 px-3 py-1.5 rounded-lg">Pulsa/Token</button>
+                <button type="button" onclick="bukaTab('cukur')" class="hover:text-amber-800 px-3 py-1.5 rounded-lg">Cukur</button>
+                <button type="button" onclick="bukaTab('admin')" class="bg-rose-100 text-rose-800 hover:bg-rose-200 px-3 py-1.5 rounded-lg border border-rose-300">Hasil Pesanan (Pengurus)</button>
             </nav>
-            <div class="md:hidden">
-                <button onclick="toggleMobileMenu()" class="text-white focus:outline-none">
-                    <i class="fa-solid fa-bars text-2xl"></i>
+
+            <!-- Jam Realtime Desktop & Keranjang Belanja -->
+            <div class="hidden md:flex items-center space-x-4">
+                <div class="text-right border-r border-amber-200 pr-4">
+                    <div id="jamDesktop" class="text-xs font-extrabold text-amber-900">--:--:--</div>
+                    <div id="tglDesktop" class="text-[10px] text-slate-500 font-medium">----</div>
+                </div>
+                <button type="button" onclick="bukaKeranjang()" class="bg-amber-400 hover:bg-amber-500 text-amber-950 font-extrabold px-3.5 py-2 rounded-xl transition flex items-center text-xs shadow-sm">
+                    <i class="fa-solid fa-basket-shopping mr-2"></i> Keranjang (<span id="jumlahKeranjang">0</span>)
                 </button>
             </div>
         </div>
-        <!-- Mobile Nav Menu -->
-        <div id="mobileMenu" class="hidden md:hidden bg-emerald-800 px-4 pt-2 pb-4 space-y-2">
-            <button onclick="switchTab('beranda'); toggleMobileMenu();" class="block w-text-left hover:text-amber-300 py-1">Beranda</button>
-            <button onclick="switchTab('katalog'); toggleMobileMenu();" class="block w-text-left hover:text-amber-300 py-1">Katalog Produk</button>
-            <button onclick="switchTab('simpanan'); toggleMobileMenu();" class="block w-text-left hover:text-amber-300 py-1">Cek Simpanan</button>
-            <button onclick="switchTab('kasir'); toggleMobileMenu();" class="block w-text-left hover:text-amber-300 py-1">Kasir (POS)</button>
-        </div>
     </header>
 
-    <!-- MAIN CONTENT CONTAINER -->
-    <main class="container mx-auto px-4 py-8">
+    <!-- KONTEN UTAMA WEBSITE -->
+    <main class="container mx-auto px-4 py-8 flex-grow">
 
-        <!-- TAB 1: BERANDA -->
-        <section id="tab-beranda" class="space-y-8">
-            <div class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white rounded-2xl p-8 md:p-12 shadow-lg flex flex-col md:flex-row items-center justify-between">
-                <div class="space-y-4 md:w-1/2">
-                    <span class="bg-amber-400 text-emerald-900 text-xs font-bold uppercase px-3 py-1 rounded-full">Kemandirian Ekonomi Santri</span>
-                    <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">Selamat Datang di Koperasi Pesantren</h1>
-                    <p class="text-emerald-100 text-sm md:text-base">Pusat pemenuhan kebutuhan santri, unit usaha mandiri, dan layanan simpan pinjam digital yang transparan dan amanah.</p>
-                    <div class="pt-2">
-                        <button onclick="switchTab('katalog')" class="bg-amber-400 hover:bg-amber-500 text-emerald-900 font-bold px-6 py-3 rounded-xl shadow transition">Lihat Produk</button>
+        <!-- TAB 1: HALAMAN LOGIN AWAL -->
+        <section id="tab-login" class="konten-tab aktif max-w-md mx-auto py-6">
+            <div class="bg-white border-2 border-amber-300 p-6 md:p-8 rounded-3xl shadow-xl space-y-6">
+                <div class="text-center space-y-2">
+                    <div class="w-16 h-16 bg-amber-400 text-amber-950 rounded-2xl mx-auto flex items-center justify-center text-3xl font-extrabold shadow-md">
+                        <i class="fa-solid fa-user-lock"></i>
                     </div>
+                    <h1 class="text-2xl font-extrabold text-slate-900">MASUK RAFA MART</h1>
+                    <p class="text-xs text-slate-500">Pilih peran Anda di bawah ini untuk memulai.</p>
                 </div>
-                <div class="mt-8 md:mt-0 md:w-1/3 text-center">
-                    <i class="fa-solid fa-handshake-angle text-9xl text-amber-300 opacity-90"></i>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Peran Akses</label>
+                        <select id="pilihanPeran" class="w-full border border-amber-300 bg-amber-50/50 px-4 py-3 rounded-xl text-xs font-bold text-slate-800">
+                            <option value="Wali Santri">Wali Santri (Belanja Jarak Jauh)</option>
+                            <option value="Santri">Santri Pondok</option>
+                            <option value="Guru / Ustadz">Guru / Ustadz Pesantren</option>
+                            <option value="Karyawan / Pengurus">Karyawan / Pengurus Kopontren (Admin)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">ID Anggota / No. WhatsApp</label>
+                        <input type="text" id="inputID" placeholder="Contoh: 081234567890" class="w-full border border-amber-300 bg-amber-50/50 px-4 py-3 rounded-xl text-xs font-bold text-slate-800">
+                    </div>
+                    <button type="button" onclick="prosesLogin()" class="w-full bg-amber-400 hover:bg-amber-500 text-amber-950 font-extrabold py-3.5 rounded-xl shadow-md transition text-xs uppercase">
+                        Masuk ke Beranda Rafa Mart
+                    </button>
+                    <button type="button" onclick="bukaTab('beranda')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl transition text-xs">
+                        Atau Langsung Lihat Beranda
+                    </button>
                 </div>
             </div>
+        </section>
 
-            <!-- Fitur Ungkapan Singkat -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-start space-x-4">
-                    <div class="bg-emerald-100 text-emerald-700 p-3 rounded-lg"><i class="fa-solid fa-box-open text-xl"></i></div>
-                    <div>
-                        <h3 class="font-bold text-lg mb-1">Produk Santri</h3>
-                        <p class="text-sm text-gray-600">Menjual perlengkapan harian, buku, seragam, dan karya kreatif santri.</p>
+        <!-- TAB 2: BERANDA UTAMA -->
+        <section id="tab-beranda" class="konten-tab space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div class="space-y-5">
+                    <span class="inline-flex items-center space-x-2 bg-amber-200 text-amber-950 px-4 py-1.5 rounded-full text-xs font-extrabold border border-amber-300">
+                        <i class="fa-solid fa-star text-amber-600"></i>
+                        <span>Koperasi Pesantren Warna Kuning Keemasan</span>
+                    </span>
+                    <h1 class="text-3xl md:text-5xl font-extrabold text-slate-900 leading-tight">
+                        Pusat Belanja & Jasa Santri <span class="text-amber-600 underline">Rafa Mart</span>
+                    </h1>
+                    <p class="text-slate-600 text-xs md:text-sm leading-relaxed">
+                        Memudahkan wali santri, santri, serta para guru/ustadz dalam memenuhi kebutuhan harian. Pesan makanan, minuman, dan pakaian dari mana saja, kami antarkan langsung ke kamar santri.
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <button type="button" onclick="bukaTab('katalog')" class="bg-amber-400 hover:bg-amber-500 text-amber-950 font-extrabold text-xs px-6 py-3.5 rounded-2xl shadow-md transition">
+                            <i class="fa-solid fa-bag-shopping mr-2"></i> Belanja Makanan & Barang
+                        </button>
+                        <button type="button" onclick="bukaTab('wali')" class="bg-white hover:bg-amber-50 text-slate-700 border border-amber-300 font-extrabold text-xs px-6 py-3.5 rounded-2xl transition">
+                            Formulir Wali Santri Jarak Jauh
+                        </button>
                     </div>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-start space-x-4">
-                    <div class="bg-emerald-100 text-emerald-700 p-3 rounded-lg"><i class="fa-solid fa-wallet text-xl"></i></div>
-                    <div>
-                        <h3 class="font-bold text-lg mb-1">Simpanan Transparan</h3>
-                        <p class="text-sm text-gray-600">Cek simpanan pokok, wajib, dan sukarela secara online dan real-time.</p>
+
+                <!-- Kartu Unggulan -->
+                <div class="bg-gradient-to-br from-amber-400 via-amber-500 to-yellow-500 text-amber-950 p-6 md:p-8 rounded-3xl shadow-lg space-y-4 border border-amber-300">
+                    <div class="flex justify-between items-start">
+                        <span class="bg-amber-950 text-amber-300 font-black text-[10px] uppercase px-3 py-1 rounded-full">Layanan Pengiriman</span>
+                        <i class="fa-solid fa-truck-fast text-3xl text-amber-950/40"></i>
                     </div>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-start space-x-4">
-                    <div class="bg-emerald-100 text-emerald-700 p-3 rounded-lg"><i class="fa-solid fa-cash-register text-xl"></i></div>
-                    <div>
-                        <h3 class="font-bold text-lg mb-1">Sistem POS Terpadu</h3>
-                        <p class="text-sm text-gray-600">Pencatatan kasir cepat untuk transaksi belanja harian di lingkungan pesantren.</p>
+                    <div class="space-y-1">
+                        <h3 class="text-xl font-black">Langsung Diantar ke Kamar Santri</h3>
+                        <p class="text-xs text-amber-950/80 font-semibold leading-relaxed">Wali santri tidak perlu repot datang ke pondok. Cukup isi formulir dan pilih barang, pesanan langsung kami teruskan ke pengurus.</p>
+                    </div>
+                    <div class="bg-white/30 p-3 rounded-2xl border border-white/40 flex justify-between items-center text-xs font-bold">
+                        <span>Layanan Online:</span>
+                        <span class="bg-emerald-600 text-white px-2.5 py-1 rounded-lg">Aktif & Melayani</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- TAB 2: KATALOG PRODUK -->
-        <section id="tab-katalog" class="hidden space-y-6">
-            <div class="flex flex-col md:flex-row justify-between items-center">
+        <!-- TAB 3: KATALOG PRODUK BERFOTO -->
+        <section id="tab-katalog" class="konten-tab space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 class="text-2xl font-bold text-gray-800">Katalog Unit Usaha</h2>
-                    <p class="text-sm text-gray-500">Pilihan produk berkualitas dari unit usaha mandiri pesantren.</p>
+                    <h2 class="text-2xl font-extrabold text-slate-900">Katalog Makanan, Snack, & Barang</h2>
+                    <p class="text-xs text-slate-500">Pilih menu makanan siap saji, snack, minuman, dan alat tulis dengan foto asli.</p>
                 </div>
-                <div class="mt-4 md:mt-0">
-                    <input type="text" id="searchProduct" onkeyup="filterProducts()" placeholder="Cari produk..." class="border border-gray-300 px-4 py-2 rounded-lg text-sm focus:outline-none focus:border-emerald-600">
-                </div>
+                <input type="text" id="pencarianInput" onkeyup="tampilkanKatalog()" placeholder="Cari makanan / barang..." class="border border-amber-300 bg-white px-4 py-2 rounded-xl text-xs w-full md:w-64 font-semibold">
             </div>
 
             <!-- Grid Produk -->
-            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-                <!-- Produk akan dimuat via JS -->
+            <div id="gridProduk" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <!-- Javascript akan memuat produk di sini -->
             </div>
         </section>
 
-        <!-- TAB 3: CEK SIMPANAN ANGGOTA -->
-        <section id="tab-simpanan" class="hidden space-y-6 max-w-xl mx-auto">
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-4">
-                <h2 class="text-2xl font-bold text-gray-800">Cek Status Simpanan Anggota</h2>
-                <p class="text-sm text-gray-500">Masukkan Nomor Induk Santri (NIS) atau ID Anggota untuk melihat rincian simpanan koperasi.</p>
-                
-                <div class="flex space-x-2">
-                    <input type="text" id="inputNis" placeholder="Contoh: 251615 (Coba ketik: 123)" class="flex-1 border border-gray-300 px-4 py-2 rounded-lg text-sm focus:outline-none focus:border-emerald-600">
-                    <button onclick="checkSimpanan()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-5 py-2 rounded-lg text-sm transition">Cek</button>
+        <!-- TAB 4: FORM WALI SANTRI -->
+        <section id="tab-wali" class="konten-tab max-w-2xl mx-auto space-y-6">
+            <div class="bg-white border-2 border-amber-300 p-6 md:p-8 rounded-3xl shadow-xl space-y-6">
+                <div class="border-b border-amber-200 pb-4">
+                    <span class="text-xs font-bold text-amber-900 bg-amber-100 px-3 py-1 rounded-full uppercase">Layanan Jarak Jauh Wali Santri</span>
+                    <h2 class="text-2xl font-extrabold text-slate-900 mt-2">Form Pengiriman Barang Santri</h2>
+                    <p class="text-xs text-slate-500">Isi data di bawah ini agar pengurus tahu barang diantarkan ke kamar mana.</p>
                 </div>
 
-                <!-- Hasil Pencarian Simpanan -->
-                <div id="resultSimpanan" class="hidden mt-6 border-t pt-4 space-y-3">
-                    <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-100 space-y-2">
-                        <p class="text-xs text-emerald-800 font-bold uppercase">Informasi Anggota</p>
-                        <p class="text-sm font-semibold text-gray-750">Nama: <span id="resNama" class="font-normal text-gray-600">-</span></p>
-                        <p class="text-sm font-semibold text-gray-750">NIS/ID: <span id="resId" class="font-normal text-gray-600">-</span></p>
-                    </div>
-                    <div class="grid grid-cols-3 gap-3 text-center">
-                        <div class="bg-gray-50 p-3 rounded-lg border">
-                            <span class="block text-xs text-gray-500">Pokok</span>
-                            <span id="resPokok" class="font-bold text-sm text-emerald-700">Rp 0</span>
+                <div class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nama Lengkap Santri *</label>
+                            <input type="text" id="waliSantriNama" placeholder="Contoh: Ahmad Fauzan" class="w-full border border-amber-300 bg-amber-50/50 px-4 py-2.5 rounded-xl text-xs font-semibold">
                         </div>
-                        <div class="bg-gray-50 p-3 rounded-lg border">
-                            <span class="block text-xs text-gray-500">Wajib</span>
-                            <span id="resWajib" class="font-bold text-sm text-emerald-700">Rp 0</span>
-                        </div>
-                        <div class="bg-gray-50 p-3 rounded-lg border">
-                            <span class="block text-xs text-gray-500">Sukarela</span>
-                            <span id="resSukarela" class="font-bold text-sm text-emerald-700">Rp 0</span>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Kelas / Kamar Santri *</label>
+                            <input type="text" id="waliSantriKamar" placeholder="Contoh: 3 Ulya / Kamar B-04" class="w-full border border-amber-300 bg-amber-50/50 px-4 py-2.5 rounded-xl text-xs font-semibold">
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- TAB 4: KASIR (POS) -->
-        <section id="tab-kasir" class="hidden space-y-6">
-            <h2 class="text-2xl font-bold text-gray-800">Simulasi Kasir Koperasi (POS)</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Daftar Barang untuk Kasir -->
-                <div class="md:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-4">
-                    <h3 class="font-bold text-lg text-gray-700">Pilih Barang</h3>
-                    <div id="posProductGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <!-- POS Item lewat JS -->
-                    </div>
-                </div>
-                <!-- Keranjang & Total Pembayaran -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-4 flex flex-col justify-between">
                     <div>
-                        <h3 class="font-bold text-lg text-gray-700 mb-3">Keranjang Belanja</h3>
-                        <div id="posCartList" class="space-y-2 max-h-48 overflow-y-auto text-sm divide-y">
-                            <p class="text-gray-400 text-center py-4">Keranjang masih kosong</p>
-                        </div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nama Wali Santri *</label>
+                        <input type="text" id="waliNama" placeholder="Contoh: Bapak H. Mahmud" class="w-full border border-amber-300 bg-amber-50/50 px-4 py-2.5 rounded-xl text-xs font-semibold">
                     </div>
-                    <div class="border-t pt-4 space-y-3">
-                        <div class="flex justify-between font-bold text-lg">
-                            <span>Total:</span>
-                            <span id="posTotal" class="text-emerald-600">Rp 0</span>
-                        </div>
-                        <button onclick="checkout()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl transition shadow">Proses Transaksi</button>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Pesan / Catatan untuk Anak</label>
+                        <textarea id="waliPesan" rows="2" placeholder="Contoh: Belajar yang rajin ya nak, ini vitamin dan cemilannya." class="w-full border border-amber-300 bg-amber-50/50 px-4 py-2.5 rounded-xl text-xs font-semibold"></textarea>
+                    </div>
+                    <div class="bg-amber-100 p-4 rounded-2xl border border-amber-300 text-xs text-amber-950">
+                        <p class="font-bold mb-1"><i class="fa-solid fa-circle-info text-amber-700"></i> Cara Belanja Wali Santri:</p>
+                        <p>1. Isi formulir nama & kamar santri di atas.<br>2. Pilih makanan/barang di <button type="button" onclick="bukaTab('katalog')" class="font-bold underline text-amber-950">Katalog Makanan</button>.<br>3. Klik tombol <strong>Keranjang</strong> di kanan atas, lalu klik <strong>Kirim Pesanan via WhatsApp</strong>.</p>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: PPOB PULSA / TOKEN -->
+        <section id="tab-ppob" class="konten-tab max-w-xl mx-auto space-y-6">
+            <div class="bg-white border-2 border-amber-300 p-6 md:p-8 rounded-3xl shadow-xl space-y-6">
+                <div class="text-center space-y-2">
+                    <div class="w-12 h-12 bg-amber-100 text-amber-900 rounded-2xl mx-auto flex items-center justify-center text-xl font-bold"><i class="fa-solid fa-bolt"></i></div>
+                    <h2 class="text-2xl font-extrabold text-slate-900">Pulsa & Token PLN Kamar</h2>
+                    <p class="text-xs text-slate-500">Layanan bayar pulsa dan token listrik praktis.</p>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nomor HP / No. Meteran PLN</label>
+                        <input type="text" id="ppobNomor" placeholder="0812xxxxxxxx" class="w-full border border-amber-300 bg-amber-50/50 px-4 py-3 rounded-xl text-xs font-semibold">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nominal</label>
+                        <select id="ppobNominal" class="w-full border border-amber-300 bg-amber-50/50 px-4 py-3 rounded-xl text-xs font-bold">
+                            <option value="20000">Rp 20.000</option>
+                            <option value="50000">Rp 50.000</option>
+                            <option value="100000">Rp 100.000</option>
+                        </select>
+                    </div>
+                    <button type="button" onclick="alert('Pembayaran PPOB berhasil diproses!')" class="w-full bg-amber-400 hover:bg-amber-500 text-amber-950 font-extrabold py-3.5 rounded-2xl text-xs transition shadow-md">Beli Sekarang</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 6: CUKUR RAMBUT -->
+        <section id="tab-cukur" class="konten-tab max-w-xl mx-auto space-y-6">
+            <div class="bg-white border-2 border-amber-300 p-6 md:p-8 rounded-3xl shadow-xl space-y-6">
+                <div class="text-center space-y-2">
+                    <div class="w-12 h-12 bg-amber-100 text-amber-900 rounded-2xl mx-auto flex items-center justify-center text-xl font-bold"><i class="fa-solid fa-scissors"></i></div>
+                    <h2 class="text-2xl font-extrabold text-slate-900">Jasa Potong Rambut Santri</h2>
+                    <p class="text-xs text-slate-500">Booking pangkas rambut agar rapi sesuai aturan pondok.</p>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nama Santri</label>
+                        <input type="text" id="cukurNama" placeholder="Nama lengkap santri" class="w-full border border-amber-300 bg-amber-50/50 px-4 py-3 rounded-xl text-xs font-semibold">
+                    </div>
+                    <button type="button" onclick="alert('Booking potong rambut berhasil dicatat!')" class="w-full bg-amber-400 hover:bg-amber-500 text-amber-950 font-extrabold py-3.5 rounded-2xl text-xs transition shadow-md">Booking Cukur (Rp 15.000)</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 7: DASHBOARD HASIL PESANAN (AKSES PENGURUS) -->
+        <section id="tab-admin" class="konten-tab space-y-6">
+            <div class="bg-white border-2 border-amber-300 p-6 md:p-8 rounded-3xl shadow-xl space-y-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-amber-200 pb-4 gap-2">
+                    <div>
+                        <span class="text-xs font-bold text-rose-700 bg-rose-100 px-3 py-1 rounded-full uppercase">Dashboard Hasil Pesanan Masuk</span>
+                        <h2 class="text-2xl font-extrabold text-slate-900 mt-2">Rekapitulasi Pesanan Wali Santri</h2>
+                        <p class="text-xs text-slate-500">Di sinilah kamu dapat memantau rincian barang belanjaan beserta nama & kamar santri.</p>
+                    </div>
+                    <button type="button" onclick="hapusRiwayat()" class="bg-rose-50 text-rose-700 hover:bg-rose-100 px-4 py-2 rounded-xl text-xs font-bold border border-rose-200 transition">Hapus Semua Riwayat</button>
+                </div>
+
+                <div id="wadahPesananAdmin" class="space-y-4">
+                    <!-- Javascript memuat data pesanan di sini -->
+                </div>
+            </div>
+        </section>
+
+        <!-- TAMPILAN KERANJANG BELANJA (TERLIHAT DI BAWAH JIKA DIBUKA) -->
+        <section id="wadahKeranjang" class="hidden bg-white border-2 border-amber-400 p-6 rounded-3xl shadow-2xl space-y-4 max-w-lg mx-auto mt-8">
+            <div class="flex justify-between items-center border-b border-amber-200 pb-3">
+                <h3 class="text-lg font-extrabold text-slate-900"><i class="fa-solid fa-basket-shopping text-amber-600 mr-2"></i>Keranjang Belanja Anda</h3>
+                <button type="button" onclick="tutupKeranjang()" class="text-slate-400 hover:text-slate-600 font-bold"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <div id="daftarItemKeranjang" class="space-y-2 divide-y divide-slate-100">
+                <!-- Item Keranjang -->
+            </div>
+
+            <div class="border-t border-amber-200 pt-4 space-y-3">
+                <div class="flex justify-between items-center font-extrabold text-base">
+                    <span>Total Pembayaran:</span>
+                    <span id="totalHargaKeranjang" class="text-amber-800">Rp 0</span>
+                </div>
+                <button type="button" onclick="kirimKeWhatsApp()" class="w-full bg-amber-400 hover:bg-amber-500 text-amber-950 font-extrabold py-3.5 rounded-2xl shadow-md transition text-xs flex items-center justify-center">
+                    <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Kirim Pesanan via WhatsApp & Simpan
+                </button>
             </div>
         </section>
 
     </main>
 
     <!-- FOOTER -->
-    <footer class="bg-white border-t mt-12 py-6 text-center text-xs text-gray-500">
-        <p>&copy; 2026 Kopontren Digital. Dibuat untuk Kemandirian Pesantren Berkelanjutan.</p>
+    <footer class="bg-white border-t border-amber-200 py-6">
+        <div class="container mx-auto px-4 text-center space-y-1">
+            <p class="text-xs font-extrabold text-slate-800">RAFA MART - KOPERASI PONDOK PESANTREN</p>
+            <p class="text-[11px] text-slate-400">&copy; 2026 Rafa Mart. Tema Kuning Keemasan Estetik.</p>
+        </div>
     </footer>
 
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- JAVASCRIPT LOGIC LENGKAP -->
     <script>
-        // Data Produk Mockup
-        const products = [
-            { id: 1, name: "Seragam Santri Putra", price: 125000, category: "Pakaian", stock: 15, icon: "fa-shirt" },
-            { id: 2, name: "Kitab Kuning Fikih", price: 45000, category: "Kitab", stock: 30, icon: "fa-book" },
-            { id: 3, name: "Peci Hitam Nasional", price: 25000, category: "Atribut", stock: 20, icon: "fa-hat-cowboy" },
-            { id: 4, name: "Madu Herbal Santri 500ml", price: 65000, category: "Kuliner", stock: 10, icon: "fa-jar" }
+        // Database Produk Makanan, Snack, & Barang
+        const daftarProduk = [
+            { id: 1, name: "Nasi Ayam Penyet Santri", price: 15000, category: "Makanan Berat", img: "https://images.unsplash.com/photo-1626532025135-729487c53d0d?w=400&auto=format&fit=crop&q=60" },
+            { id: 2, name: "Nasi Goreng Spesial Pondok", price: 13000, category: "Makanan Berat", img: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&auto=format&fit=crop&q=60" },
+            { id: 3, name: "Mie Instan Rebus Telur", price: 8000, category: "Makanan Berat", img: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&auto=format&fit=crop&q=60" },
+            { id: 4, name: "Keripik Singkong Barokah", price: 6000, category: "Snack & Roti", img: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=400&auto=format&fit=crop&q=60" },
+            { id: 5, name: "Roti Coklat Keju Santri", price: 5000, category: "Snack & Roti", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&auto=format&fit=crop&q=60" },
+            { id: 6, name: "Es Teh Manis Jumbo", price: 4000, category: "Minuman", img: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&auto=format&fit=crop&q=60" },
+            { id: 7, name: "Susu Murni Hangat / Dingin", price: 7000, category: "Minuman", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&auto=format&fit=crop&q=60" },
+            { id: 8, name: "Paket Buku & Pulpen Lengkap", price: 25000, category: "ATK", img: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=400&auto=format&fit=crop&q=60" },
+            { id: 9, name: "Sarung Santri Premium", price: 95000, category: "Pakaian", img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&auto=format&fit=crop&q=60" },
+            { id: 10, name: "Baju Koko Putih Elegan", price: 85000, category: "Pakaian", img: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=400&auto=format&fit=crop&q=60" }
         ];
 
-        // Data Simpanan Mockup
-        const databaseSimpanan = {
-            "123": { nama: "Ahmad Fauzi", nis: "12345", pokok: 100000, wajib: 250000, sukarela: 75000 },
-            "456": { nama: "Siti Aminah", nis: "12346", pokok: 100000, wajib: 300000, sukarela: 150000 }
-        };
+        let keranjang = [];
+        let dataPesananAdmin = JSON.parse(localStorage.getItem('rafa_orders')) || [];
 
-        let cart = [];
+        // Update Jam & Tanggal Realtime
+        function perbaruiJam() {
+            const sekarang = new Date();
+            const jamStr = sekarang.toLocaleTimeString('id-ID');
+            const opsiTgl = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const tglStr = sekarang.toLocaleDateString('id-ID', opsiTgl);
 
-        // Tab Switcher Function
-        function switchTab(tabId) {
-            const tabs = ['beranda', 'katalog', 'simpanan', 'kasir'];
-            tabs.forEach(t => {
-                document.getElementById('tab-' + t).classList.add('hidden');
+            document.getElementById('jamDesktop').innerText = jamStr;
+            document.getElementById('tglDesktop').innerText = tglStr;
+            document.getElementById('jamMobile').innerText = jamStr;
+            document.getElementById('tglMobile').innerText = tglStr;
+        }
+        setInterval(perbaruiJam, 1000);
+        perbaruiJam();
+
+        // Pindah Tab Navigasi Sederhana
+        function bukaTab(namaTab) {
+            document.querySelectorAll('.konten-tab').forEach(el => {
+                el.classList.remove('aktif');
             });
-            document.getElementById('tab-' + tabId).classList.remove('hidden');
-            
-            if(tabId === 'katalog') renderProducts(products);
-            if(tabId === 'kasir') renderPosProducts();
-        }
-
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('hidden');
-        }
-
-        // Render Katalog Produk
-        function renderProducts(list) {
-            const grid = document.getElementById('productGrid');
-            grid.innerHTML = '';
-            if(list.length === 0) {
-                grid.innerHTML = '<p class="col-span-4 text-center text-gray-400 py-6">Produk tidak ditemukan.</p>';
-                return;
+            const tabTujuan = document.getElementById('tab-' + namaTab);
+            if(tabTujuan) {
+                tabTujuan.classList.add('aktif');
             }
-            list.forEach(p => {
+            if(namaTab === 'katalog') tampilkanKatalog();
+            if(namaTab === 'admin') tampilkanPesananAdmin();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Proses Login
+        function prosesLogin() {
+            const peran = document.getElementById('pilihanPeran').value;
+            const id = document.getElementById('inputID').value;
+            if(!id) { alert('Silakan masukkan ID atau nomor WhatsApp Anda.'); return; }
+
+            document.getElementById('roleAkunAktif').innerText = peran.toUpperCase() + ' (' + id + ')';
+            bukaTab('beranda');
+        }
+
+        // Tampilkan Katalog Makanan & Barang
+        function tampilkanKatalog() {
+            const grid = document.getElementById('gridProduk');
+            grid.innerHTML = '';
+            const katakunci = document.getElementById('pencarianInput').value.toLowerCase();
+
+            const hasilFilter = daftarProduk.filter(p => p.name.toLowerCase().includes(katakunci));
+
+            hasilFilter.forEach(p => {
                 grid.innerHTML += `
-                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between">
+                    <div class="bg-white border border-amber-300 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-between">
                         <div>
-                            <div class="h-32 bg-emerald-50 rounded-lg flex items-center justify-center text-emerald-600 mb-3">
-                                <i class="fa-solid ${p.icon} text-4xl"></i>
+                            <div class="h-28 w-full bg-amber-50 overflow-hidden">
+                                <img src="${p.img}" alt="${p.name}" class="w-full h-full object-cover">
                             </div>
-                            <span class="text-xs text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded font-medium">${p.category}</span>
-                            <h3 class="font-bold text-gray-800 mt-2">${p.name}</h3>
-                            <p class="text-xs text-gray-500 mt-1">Stok: ${p.stock}</p>
+                            <div class="p-3 space-y-1">
+                                <span class="text-[9px] uppercase font-extrabold text-amber-900 bg-amber-100 px-2 py-0.5 rounded">${p.category}</span>
+                                <h4 class="font-bold text-slate-800 text-xs leading-snug">${p.name}</h4>
+                            </div>
                         </div>
-                        <div class="mt-4 flex justify-between items-center">
-                            <span class="font-bold text-emerald-600 text-sm">Rp ${p.price.toLocaleString()}</span>
-                            <button onclick="addToCart(${p.id})" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs transition"><i class="fa-solid fa-cart-plus"></i> Beli</button>
+                        <div class="p-3 pt-0 flex justify-between items-center">
+                            <span class="font-extrabold text-amber-800 text-xs">Rp ${p.price.toLocaleString('id-ID')}</span>
+                            <button type="button" onclick="tambahKeKeranjang(${p.id})" class="bg-amber-400 hover:bg-amber-500 text-amber-950 px-2.5 py-1 rounded-xl text-[11px] font-extrabold">
+                                + Beli
+                            </button>
                         </div>
                     </div>
                 `;
             });
         }
 
-        function filterProducts() {
-            const keyword = document.getElementById('searchProduct').value.toLowerCase();
-            const filtered = products.filter(p => p.name.toLowerCase().includes(keyword) || p.category.toLowerCase().includes(keyword));
-            renderProducts(filtered);
+        // Keranjang Belanja
+        function tambahKeKeranjang(id) {
+            const produk = daftarProduk.find(p => p.id === id);
+            const ada = keranjang.find(item => item.id === id);
+            if(ada) { ada.qty++; } else { keranjang.push({ ...produk, qty: 1 }); }
+            perbaruiKeranjang();
+            alert(`"${produk.name}" ditambahkan ke keranjang!`);
         }
 
-        // Cek Simpanan
-        function checkSimpanan() {
-            const nis = document.getElementById('inputNis').value.trim();
-            const resultBox = document.getElementById('resultSimpanan');
-            
-            if(databaseSimpanan[nis]) {
-                const data = databaseSimpanan[nis];
-                document.getElementById('resNama').innerText = data.nama;
-                document.getElementById('resId').innerText = data.nis;
-                document.getElementById('resPokok').innerText = 'Rp ' + data.pokok.toLocaleString();
-                document.getElementById('resWajib').innerText = 'Rp ' + data.wajib.toLocaleString();
-                document.getElementById('resSukarela').innerText = 'Rp ' + data.sukarela.toLocaleString();
-                resultBox.classList.remove('hidden');
-            } else {
-                alert('Data simpanan dengan ID/NIS tersebut tidak ditemukan. Coba ketik "123" atau "456".');
-                resultBox.classList.add('hidden');
-            }
-        }
+        function perbaruiKeranjang() {
+            const totalItem = keranjang.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('jumlahKeranjang').innerText = totalItem;
 
-        // POS Kasir Functions
-        function renderPosProducts() {
-            const grid = document.getElementById('posProductGrid');
-            grid.innerHTML = '';
-            products.forEach(p => {
-                grid.innerHTML += `
-                    <div class="border p-3 rounded-lg flex justify-between items-center bg-gray-50">
-                        <div>
-                            <h4 class="font-bold text-sm">${p.name}</h4>
-                            <p class="text-xs text-emerald-600 font-semibold">Rp ${p.price.toLocaleString()}</p>
-                        </div>
-                        <button onclick="addToCart(${p.id})" class="bg-emerald-600 text-white px-3 py-1 rounded text-xs hover:bg-emerald-700">+</button>
-                    </div>
-                `;
-            });
-        }
+            const wadah = document.getElementById('daftarItemKeranjang');
+            const totalEl = document.getElementById('totalHargaKeranjang');
+            wadah.innerHTML = '';
 
-        function addToCart(productId) {
-            const product = products.find(p => p.id === productId);
-            const existing = cart.find(item => item.id === productId);
-            if(existing) {
-                existing.qty++;
-            } else {
-                cart.push({ ...product, qty: 1 });
-            }
-            updateCartUI();
-            // Pindah tab ke kasir jika dibeli lewat katalog
-            // switchTab('kasir');
-        }
-
-        function updateCartUI() {
-            const cartList = document.getElementById('posCartList');
-            const totalElement = document.getElementById('posTotal');
-            cartList.innerHTML = '';
-            
-            if(cart.length === 0) {
-                cartList.innerHTML = '<p class="text-gray-400 text-center py-4">Keranjang masih kosong</p>';
-                totalElement.innerText = 'Rp 0';
+            if(keranjang.length === 0) {
+                wadah.innerHTML = '<p class="text-center text-slate-400 py-4 text-xs">Keranjang masih kosong.</p>';
+                totalEl.innerText = 'Rp 0';
                 return;
             }
 
             let total = 0;
-            cart.forEach(item => {
-                let subtotal = item.price * item.qty;
-                total += subtotal;
-                cartList.innerHTML += `
-                    <div class="flex justify-between items-center py-2">
+            keranjang.forEach(item => {
+                let sub = item.price * item.qty;
+                total += sub;
+                wadah.innerHTML += `
+                    <div class="flex justify-between items-center py-2 text-xs">
                         <div>
-                            <p class="font-medium text-sm">${item.name}</p>
-                            <p class="text-xs text-gray-500">${item.qty} x Rp ${item.price.toLocaleString()}</p>
+                            <p class="font-bold text-slate-800">${item.name}</p>
+                            <p class="text-slate-400">Rp ${item.price.toLocaleString('id-ID')} x ${item.qty}</p>
                         </div>
-                        <span class="font-bold text-sm">Rp ${subtotal.toLocaleString()}</span>
+                        <span class="font-bold text-slate-900">Rp ${sub.toLocaleString('id-ID')}</span>
                     </div>
                 `;
             });
-            totalElement.innerText = 'Rp ' + total.toLocaleString();
+            totalEl.innerText = 'Rp ' + total.toLocaleString('id-ID');
         }
 
-        function checkout() {
-            if(cart.length === 0) {
-                alert('Keranjang masih kosong!');
+        function bukaKeranjang() {
+            document.getElementById('wadahKeranjang').classList.remove('hidden');
+            perbaruiKeranjang();
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+
+        function tutupKeranjang() {
+            document.getElementById('wadahKeranjang').classList.add('hidden');
+        }
+
+        // Checkout Kirim WhatsApp & Simpan Pesanan
+        function kirimKeWhatsApp() {
+            if(keranjang.length === 0) { alert('Keranjang masih kosong!'); return; }
+
+            const santri = document.getElementById('waliSantriNama').value || 'Santri Umum';
+            const kamar = document.getElementById('waliSantriKamar').value || '-';
+            const wali = document.getElementById('waliNama').value || 'Wali Santri';
+            const pesan = document.getElementById('waliPesan').value || '-';
+            const waktuNow = new Date().toLocaleString('id-ID');
+
+            let total = 0;
+            let teksBarang = '';
+            keranjang.forEach((item, idx) => {
+                let sub = item.price * item.qty;
+                total += sub;
+                teksBarang += `${idx+1}. ${item.name} (${item.qty}x) = Rp ${sub.toLocaleString('id-ID')}\n`;
+            });
+
+            // Simpan ke database pengurus
+            const pesananBaru = {
+                waktu: waktuNow,
+                wali: wali,
+                santri: santri,
+                kamar: kamar,
+                pesan: pesan,
+                items: [...keranjang],
+                total: total
+            };
+            dataPesananAdmin.unshift(pesananBaru);
+            localStorage.setItem('rafa_orders', JSON.stringify(dataPesananAdmin));
+
+            let waTeks = `*PESANAN RAFA MART KOPONTREN*\n\n` +
+                         `*Waktu:* ${waktuNow}\n` +
+                         `*Wali Pemesan:* ${wali}\n` +
+                         `*Nama Santri:* ${santri}\n` +
+                         `*Kamar/Kelas:* ${kamar}\n` +
+                         `*Pesan:* ${pesan}\n\n` +
+                         `*Rincian Belanja:*\n${teksBarang}\n` +
+                         `*TOTAL: Rp ${total.toLocaleString('id-ID')}*\n\n` +
+                         `Mohon disiapkan dan diantarkan ke kamar santri. Terima kasih!`;
+
+            window.open(`https://wa.me/?text=${encodeURIComponent(waTeks)}`, '_blank');
+            keranjang = [];
+            perbaruiKeranjang();
+            tutupKeranjang();
+            alert('Pesanan berhasil dikirim ke WhatsApp dan tersimpan di Dashboard Hasil Pesanan Pengurus!');
+        }
+
+        // Dashboard Hasil Pesanan Pengurus
+        function tampilkanPesananAdmin() {
+            const wadah = document.getElementById('wadahPesananAdmin');
+            wadah.innerHTML = '';
+
+            if(dataPesananAdmin.length === 0) {
+                wadah.innerHTML = '<p class="text-center text-slate-400 py-8 text-xs">Belum ada pesanan masuk.</p>';
                 return;
             }
-            alert('Transaksi berhasil diproses! Struk digital tercatat pada sistem.');
-            cart = [];
-            updateCartUI();
+
+            dataPesananAdmin.forEach(ord => {
+                let listBarang = '';
+                ord.items.forEach(i => {
+                    listBarang += `<li class="text-slate-600">• ${i.name} (${i.qty}x) - Rp ${(i.price * i.qty).toLocaleString('id-ID')}</li>`;
+                });
+
+                wadah.innerHTML += `
+                    <div class="bg-amber-50 border border-amber-300 p-4 rounded-2xl space-y-2 text-xs">
+                        <div class="flex justify-between items-center border-b border-amber-200 pb-2">
+                            <span class="font-extrabold text-amber-900"><i class="fa-solid fa-clock mr-1"></i> ${ord.waktu}</span>
+                            <span class="bg-amber-400 text-amber-950 font-extrabold px-2 py-0.5 rounded text-[10px]">Total: Rp ${ord.total.toLocaleString('id-ID')}</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            <p><strong>Wali Pemesan:</strong> ${ord.wali}</p>
+                            <p><strong>Santri Tujuan:</strong> ${ord.santri} (${ord.kamar})</p>
+                        </div>
+                        <p><strong>Pesan:</strong> ${ord.pesan}</p>
+                        <div>
+                            <p class="font-bold text-slate-700 mt-1">Barang Dibeli:</p>
+                            <ul class="list-disc list-inside space-y-0.5">${listBarang}</ul>
+                        </div>
+                    </div>
+                `;
+            });
         }
+
+        function hapusRiwayat() {
+            if(confirm('Hapus seluruh riwayat pesanan?')) {
+                dataPesananAdmin = [];
+                localStorage.removeItem('rafa_orders');
+                tampilkanPesananAdmin();
+            }
+        }
+
+        // Muat katalog saat pertama kali dibuka
+        window.onload = function() {
+            tampilkanKatalog();
+        };
     </script>
 </body>
 </html>
