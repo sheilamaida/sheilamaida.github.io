@@ -1,562 +1,1089 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="h-full scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rafa Mart - Koperasi Pondok Pesantren</title>
-    <!-- Tailwind CSS -->
+    <title>QAF Market - Kopontren Digital Pesantren</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
+    <!-- FontAwesome 6 Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Aref Ruqaa, Amiri, & Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Aref+Ruqaa:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        qaf: {
+                            50: '#fffdf5',
+                            100: '#fef9c3',
+                            200: '#fef08a',
+                            300: '#fde047',
+                            400: '#facc15',
+                            500: '#eab308',
+                            600: '#ca8a04',
+                            700: '#a16207',
+                            800: '#854d0e',
+                            900: '#713f12',
+                            950: '#422006',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .konten-tab { display: none; }
-        .konten-tab.aktif { display: block; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+        }
+        .font-arabic { 
+            font-family: 'Amiri', serif; 
+        }
+        .font-qaf {
+            font-family: 'Aref Ruqaa', serif;
+        }
+
+        /* Gradasi Teks Emas Khas QAF */
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 8px rgba(217, 119, 6, 0.25));
+        }
+
+        /* Pattern Islami Lembut */
+        .bg-light-islamic {
+            background-color: #FAF6ED;
+            background-image: radial-gradient(#E2D1B0 1.5px, transparent 1.5px);
+            background-size: 32px 32px;
+        }
+
+        /* ANIMASI BERGERAK-GERAK (DYNAMIC FLOATING ANIMATIONS) */
+        @keyframes floatEcommerce {
+            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+            50% { transform: translateY(-12px) rotate(4deg) scale(1.03); }
+        }
+        .floating-icon { animation: floatEcommerce 4.5s ease-in-out infinite; }
+        .delay-1 { animation-delay: 0.8s; }
+        .delay-2 { animation-delay: 1.6s; }
+        .delay-3 { animation-delay: 2.4s; }
+        .delay-4 { animation-delay: 3.2s; }
+
+        /* ANIMASI KHUSUS GAMBAR KATALOG PRODUCT BREATHING */
+        @keyframes imgBreathing {
+            0%, 100% { transform: scale(1) translateY(0); }
+            50% { transform: scale(1.04) translateY(-4px); }
+        }
+        .animate-img-alive {
+            animation: imgBreathing 4s ease-in-out infinite;
+        }
+
+        /* Animasi Pulsing Cahaya Melayang */
+        @keyframes glowingPulse {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.2); }
+        }
+        .animate-glow { animation: glowingPulse 5s infinite ease-in-out; }
+
+        /* Shimmer Effect Tombol */
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .animate-shimmer { animation: shimmer 2.5s infinite; }
+
+        @keyframes pulseSoft {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+        .animate-pulse-soft { animation: pulseSoft 2s infinite ease-in-out; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #FAF6ED; }
+        ::-webkit-scrollbar-thumb { background: #d97706; border-radius: 9999px; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+        .animate-shake { animation: shake 0.4s ease-in-out; }
+
+        /* KARTU KATALOG INTERAKTIF EFEK MENAKJUBKAN */
+        .product-card-interactive {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .product-card-interactive:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 35px -10px rgba(217, 119, 6, 0.22), 0 10px 15px -5px rgba(0, 0, 0, 0.04);
+            border-color: #f59e0b;
+        }
     </style>
 </head>
-<body class="bg-amber-50/50 text-slate-800 min-h-screen flex flex-col justify-between">
+<body class="bg-light-islamic text-slate-800 min-h-screen flex flex-col relative antialiased selection:bg-amber-400 selection:text-amber-950">
 
-    <!-- HEADER & NAVBAR UTAMA -->
-    <header class="bg-white border-b border-amber-200 sticky top-0 z-30 shadow-sm">
-        <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
-            
-            <!-- Logo & Jam Real-Time -->
-            <div class="flex items-center justify-between w-full md:w-auto">
-                <div class="flex items-center space-x-3 cursor-pointer" onclick="bukaTab('beranda')">
-                    <div class="w-10 h-10 rounded-2xl bg-amber-400 flex items-center justify-center text-amber-950 font-extrabold shadow-sm">
-                        <i class="fa-solid fa-store text-lg"></i>
-                    </div>
-                    <div>
-                        <span class="text-lg font-extrabold text-slate-900 tracking-tight">RAFA MART</span>
-                        <span id="roleAkunAktif" class="block text-[10px] text-amber-800 font-bold uppercase tracking-wider">Kopontren Digital</span>
+    <!-- ========================================== -->
+    <!-- 1. MODUL HALAMAN LOGIN / OTENTIKASI        -->
+    <!-- ========================================== -->
+    <div id="loginView" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-light-islamic overflow-hidden">
+        <!-- Ambient Glowing Lights Animated -->
+        <div class="animate-glow absolute -top-24 -left-24 w-96 h-96 bg-amber-200/70 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="animate-glow delay-2 absolute -bottom-24 -right-24 w-96 h-96 bg-yellow-300/60 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="animate-glow delay-1 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-amber-100/80 rounded-full blur-3xl pointer-events-none"></div>
+
+        <!-- Animated Background Icons Floating -->
+        <div class="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+            <div class="floating-icon absolute top-[12%] left-[8%] text-amber-600/25 text-5xl sm:text-6xl"><i class="fa-solid fa-cart-shopping"></i></div>
+            <div class="floating-icon delay-1 absolute top-[16%] right-[10%] text-amber-700/20 text-6xl sm:text-7xl"><i class="fa-solid fa-bag-shopping"></i></div>
+            <div class="floating-icon delay-2 absolute bottom-[20%] left-[10%] text-yellow-600/30 text-5xl sm:text-6xl"><i class="fa-solid fa-coins"></i></div>
+            <div class="floating-icon delay-3 absolute bottom-[15%] right-[8%] text-amber-800/20 text-6xl"><i class="fa-solid fa-qrcode"></i></div>
+            <div class="floating-icon delay-4 absolute top-[50%] right-[5%] text-amber-600/20 text-5xl"><i class="fa-solid fa-wallet"></i></div>
+            <div class="floating-icon delay-1 absolute top-[48%] left-[5%] text-amber-700/20 text-5xl"><i class="fa-solid fa-store"></i></div>
+        </div>
+
+        <!-- Siluet Masjid/Pesantren di Bawah -->
+        <div class="absolute inset-x-0 bottom-0 z-0 pointer-events-none opacity-20 flex justify-center">
+            <svg class="w-full max-w-6xl h-40 sm:h-52 text-amber-800 fill-current" viewBox="0 0 1200 300" preserveAspectRatio="none">
+                <path d="M 600,60 C 550,100 530,160 530,210 L 670,210 C 670,160 650,100 600,60 Z"></path>
+                <rect x="515" y="90" width="10" height="210" rx="3"/>
+                <rect x="675" y="90" width="10" height="210" rx="3"/>
+                <path d="M 380,120 C 340,150 325,190 325,230 L 435,230 C 435,190 420,150 380,120 Z"></path>
+                <path d="M 820,120 C 780,150 765,190 765,230 L 875,230 C 875,190 860,150 820,120 Z"></path>
+                <rect x="0" y="250" width="1200" height="50"/>
+            </svg>
+        </div>
+
+        <!-- Kartu Form Login -->
+        <div id="loginCard" class="relative z-10 w-full max-w-md bg-white/95 border-2 border-amber-300/90 rounded-3xl p-7 sm:p-9 shadow-[0_20px_50px_rgba(180,83,9,0.18)] space-y-6 mx-auto my-auto transition-all">
+            <!-- Header Logo -->
+            <div class="text-center space-y-1">
+                <div class="inline-flex items-center justify-center space-x-2">
+                    <span class="font-qaf text-5xl font-extrabold gold-gradient-text tracking-wide leading-none">Qaf</span>
+                    <span class="text-2xl font-black tracking-[0.18em] text-amber-900 uppercase">MARKET</span>
+                </div>
+                <p class="text-[11px] font-extrabold text-amber-800 tracking-[0.2em] uppercase pt-1">Kopontren Digital Pesantren</p>
+            </div>
+
+            <!-- Quote Mutiara -->
+            <div class="bg-amber-50/90 border border-amber-200 rounded-2xl p-3.5 text-center space-y-1 shadow-sm">
+                <p class="font-arabic text-base text-amber-950 font-bold leading-relaxed">مَنْ طَلَبَ العِلْمَ وَتَجَرَ بِالأَمَانَةِ بَارَكَ اللهُ فِيْهِ</p>
+                <p class="text-[10px] text-amber-900 font-semibold italic">"Kemandirian & keberkahan ekonomi untuk kesejahteraan santri."</p>
+            </div>
+
+            <!-- Form Otentikasi -->
+            <div class="space-y-4">
+                <div class="space-y-1.5">
+                    <label class="block text-[10px] font-extrabold text-amber-950 uppercase tracking-widest flex items-center">
+                        <i class="fa-solid fa-user-shield mr-1.5 text-amber-600"></i> AKSES
+                    </label>
+                    <div class="relative">
+                        <select id="roleLogin" class="w-full bg-slate-50 border-2 border-amber-200 focus:border-amber-500 text-slate-800 px-4 py-3 rounded-xl text-xs font-bold appearance-none focus:outline-none focus:ring-2 focus:ring-amber-400/20 transition cursor-pointer">
+                            <option value="Santri">Santri</option>
+                            <option value="Guru">Guru</option>
+                            <option value="Wali Santri">Wali Santri</option>
+                            <option value="Pengurus">Pengurus</option>
+                            <option value="Admin Qaf">Admin Qaf</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 text-xs pointer-events-none"></i>
                     </div>
                 </div>
 
-                <!-- Jam Realtime Mobile -->
-                <div class="md:hidden text-right">
-                    <div id="jamMobile" class="text-xs font-extrabold text-amber-900">--:--:--</div>
-                    <div id="tglMobile" class="text-[9px] text-slate-500">----</div>
+                <div class="space-y-1.5">
+                    <label class="block text-[10px] font-extrabold text-amber-950 uppercase tracking-widest flex items-center">
+                        <i class="fa-solid fa-key mr-1.5 text-amber-600"></i> KODE ID
+                    </label>
+                    <div class="relative">
+                        <input type="password" id="kodeOtentikasi" placeholder="Masukkan Kode ID Anda" 
+                               class="w-full bg-slate-50 border-2 border-amber-200 focus:border-amber-500 text-slate-900 placeholder:text-slate-400 px-4 py-3 rounded-xl text-xs font-extrabold tracking-wider focus:outline-none focus:ring-2 focus:ring-amber-400/20 transition">
+                        <button type="button" onclick="toggleLihatKode()" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-amber-700 transition">
+                            <i id="eyeIcon" class="fa-solid fa-eye text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="button" onclick="validasiAkses()" 
+                        class="relative overflow-hidden w-full bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 hover:from-amber-500 hover:to-yellow-600 text-slate-950 font-black py-3.5 rounded-xl shadow-lg shadow-amber-500/30 transition-all duration-300 transform hover:-translate-y-0.5 text-xs uppercase tracking-wider flex items-center justify-center cursor-pointer group mt-2">
+                    <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full animate-shimmer"></span>
+                    <span class="relative z-10 flex items-center">
+                        <i class="fa-solid fa-right-to-bracket mr-2 group-hover:translate-x-1 transition-transform"></i> MASUK KE QAF MARKET
+                    </span>
+                </button>
+            </div>
+
+            <div class="pt-2 border-t border-slate-200 flex items-center justify-between text-[10px]">
+                <span class="text-slate-500 font-medium">&copy; 2026 QAF Market</span>
+                <button type="button" onclick="bantuanKode()" class="text-amber-800 font-extrabold hover:underline flex items-center cursor-pointer">
+                    <i class="fa-solid fa-circle-question mr-1 text-amber-600"></i> Lupa Kode ID?
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 2. NAVBAR UTAMA DENGAN JAM & TANGGAL ATAS  -->
+    <!-- ========================================== -->
+    <header id="mainHeader" class="hidden sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-amber-200/80 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            
+            <!-- Brand Logo -->
+            <div class="flex items-center space-x-3 cursor-pointer shrink-0" onclick="scrollToTop()">
+                <div class="w-11 h-11 bg-amber-500 rounded-2xl flex items-center justify-center shadow-lg shadow-amber-500/30 text-slate-950 font-qaf text-2xl font-bold floating-icon">
+                    Q
+                </div>
+                <div>
+                    <div class="flex items-center space-x-1.5">
+                        <span class="font-qaf text-2xl sm:text-3xl font-extrabold gold-gradient-text leading-none">Qaf</span>
+                        <span class="text-base sm:text-lg font-black tracking-widest text-amber-950 uppercase">MARKET</span>
+                    </div>
+                    <p class="text-[9.5px] font-bold text-amber-700 uppercase tracking-widest hidden sm:block">Kopontren Digital Pesantren</p>
                 </div>
             </div>
 
-            <!-- Tombol Navigasi Tab -->
-            <nav class="flex flex-wrap items-center justify-center gap-1 md:gap-2 text-xs font-bold text-slate-700">
-                <button type="button" onclick="bukaTab('login')" class="bg-amber-100 hover:bg-amber-200 text-amber-950 px-3 py-1.5 rounded-lg border border-amber-300">Halaman Login</button>
-                <button type="button" onclick="bukaTab('beranda')" class="hover:text-amber-800 px-3 py-1.5 rounded-lg">Beranda</button>
-                <button type="button" onclick="bukaTab('katalog')" class="hover:text-amber-800 px-3 py-1.5 rounded-lg">Katalog Makanan</button>
-                <button type="button" onclick="bukaTab('wali')" class="hover:text-amber-800 px-3 py-1.5 rounded-lg">Wali Santri</button>
-                <button type="button" onclick="bukaTab('ppob')" class="hover:text-amber-800 px-3 py-1.5 rounded-lg">Pulsa/Token</button>
-                <button type="button" onclick="bukaTab('admin')" class="bg-rose-100 text-rose-800 hover:bg-rose-200 px-3 py-1.5 rounded-lg border border-rose-300">Hasil Pesanan</button>
-                <button type="button" onclick="bukaTab('logout')" class="bg-amber-500 hover:bg-amber-600 text-amber-950 px-3 py-1.5 rounded-lg shadow-sm">Logout</button>
-            </nav>
+            <!-- Jam & Tanggal Terpasang di Atas Header -->
+            <div class="flex items-center space-x-2 text-[11px] font-extrabold text-amber-900 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-2xl shadow-sm">
+                <i class="fa-regular fa-calendar-days text-amber-600"></i>
+                <span id="headerDateStr">--</span>
+                <span class="text-amber-300">|</span>
+                <i class="fa-regular fa-clock text-amber-600"></i>
+                <span id="headerTimeStr" class="text-amber-700">--:--:-- WIB</span>
+            </div>
 
-            <!-- Jam Realtime Desktop & Keranjang Belanja -->
-            <div class="hidden md:flex items-center space-x-4">
-                <div class="text-right border-r border-amber-200 pr-4">
-                    <div id="jamDesktop" class="text-xs font-extrabold text-amber-900">--:--:--</div>
-                    <div id="tglDesktop" class="text-[10px] text-slate-500 font-medium">----</div>
+            <!-- User Info & Cart Button -->
+            <div class="flex items-center space-x-3 shrink-0">
+                <div class="hidden md:flex flex-col text-right">
+                    <span id="activeUserRoleLabel" class="text-xs font-black text-slate-900 uppercase">Santri</span>
+                    <span id="activeUserRoleBadge" class="text-[9px] font-bold text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full inline-block self-end">AKSES AKTIF</span>
                 </div>
-                <button type="button" onclick="bukaKeranjang()" class="bg-amber-400 hover:bg-amber-500 text-amber-950 font-extrabold px-3.5 py-2 rounded-xl transition flex items-center text-xs shadow-sm">
-                    <i class="fa-solid fa-basket-shopping mr-2"></i> Keranjang (<span id="jumlahKeranjang">0</span>)
+
+                <!-- Tombol Keranjang Belanja Floating Badge -->
+                <button onclick="toggleCartDrawer()" class="relative bg-amber-500 hover:bg-amber-600 text-slate-950 p-2.5 sm:p-3 rounded-2xl shadow-lg shadow-amber-500/25 transition flex items-center justify-center cursor-pointer">
+                    <i class="fa-solid fa-cart-shopping text-base sm:text-lg"></i>
+                    <span id="cartCountBadge" class="absolute -top-2 -right-2 bg-rose-600 text-white text-[10px] font-black w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center border-2 border-white animate-pulse-soft">0</span>
+                </button>
+
+                <!-- Tombol Logout -->
+                <button onclick="logout()" class="bg-slate-100 hover:bg-rose-100 text-slate-600 hover:text-rose-600 p-2.5 sm:p-3 rounded-2xl transition cursor-pointer" title="Keluar">
+                    <i class="fa-solid fa-right-from-bracket text-base"></i>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- KONTEN UTAMA WEBSITE -->
-    <main class="container mx-auto px-4 py-8 flex-grow">
+    <!-- ========================================== -->
+    <!-- 3. KONTEN UTAMA (AFTER LOGIN)              -->
+    <!-- ========================================== -->
+    <main id="mainApp" class="hidden flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
 
-        <!-- TAB 1: HALAMAN LOGIN AWAL -->
-        <section id="tab-login" class="konten-tab aktif max-w-md mx-auto py-6">
-            <div class="bg-white border-2 border-amber-300 p-6 md:p-8 rounded-3xl shadow-xl space-y-6">
-                <div class="text-center space-y-2">
-                    <div class="w-16 h-16 bg-amber-400 text-amber-950 rounded-2xl mx-auto flex items-center justify-center text-3xl font-extrabold shadow-md">
-                        <i class="fa-solid fa-user-lock"></i>
+        <!-- A. BANNER SELAMAT DATANG DENGAN IKON-IKON LAYANAN BERGERAK-GERAK -->
+        <section id="welcomeSection" class="relative overflow-hidden bg-gradient-to-r from-amber-950 via-amber-900 to-slate-900 rounded-3xl p-6 sm:p-10 text-white shadow-2xl border border-amber-400/30">
+            <div class="animate-glow absolute -top-10 -right-10 w-72 h-72 bg-amber-500/20 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                <!-- Teks Deskripsi Banner -->
+                <div class="lg:col-span-7 space-y-3">
+                    <div class="inline-flex items-center space-x-2 bg-amber-500/20 border border-amber-400/40 px-3.5 py-1 rounded-full text-amber-300 text-xs font-extrabold uppercase tracking-widest">
+                        <i class="fa-solid fa-sparkles"></i>
+                        <span>Koperasi Pesantren Digital</span>
                     </div>
-                    <h1 class="text-2xl font-extrabold text-slate-900">MASUK RAFA MART</h1>
-                    <p class="text-xs text-slate-500">Pilih peran Anda di bawah ini untuk memulai.</p>
-                </div>
 
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Peran Akses</label>
-                        <select id="pilihanPeran" class="w-full border border-amber-300 bg-amber-50/50 px-4 py-3 rounded-xl text-xs font-bold text-slate-800">
-                            <option value="Wali Santri">Wali Santri (Belanja Jarak Jauh)</option>
-                            <option value="Santri">Santri Pondok</option>
-                            <option value="Guru / Ustadz">Guru / Ustadz Pesantren</option>
-                            <option value="Karyawan / Pengurus">Karyawan / Pengurus Kopontren (Admin)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">ID Anggota / No. WhatsApp</label>
-                        <input type="text" id="inputID" placeholder="Contoh: 081234567890" class="w-full border border-amber-300 bg-amber-50/50 px-4 py-3 rounded-xl text-xs font-bold text-slate-800">
-                    </div>
-                    <button type="button" onclick="prosesLogin()" class="w-full bg-amber-400 hover:bg-amber-500 text-amber-950 font-extrabold py-3.5 rounded-xl shadow-md transition text-xs uppercase">
-                        Masuk ke Beranda Rafa Mart
-                    </button>
-                    <button type="button" onclick="bukaTab('beranda')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl transition text-xs">
-                        Atau Langsung Lihat Beranda
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- TAB 2: BERANDA UTAMA -->
-        <section id="tab-beranda" class="konten-tab space-y-8">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                <div class="space-y-5">
-                    <span class="inline-flex items-center space-x-2 bg-amber-200 text-amber-950 px-4 py-1.5 rounded-full text-xs font-extrabold border border-amber-300">
-                        <i class="fa-solid fa-star text-amber-600"></i>
-                        <span>Koperasi Pesantren Warna Kuning Keemasan</span>
-                    </span>
-                    <h1 class="text-3xl md:text-5xl font-extrabold text-slate-900 leading-tight">
-                        Pusat Belanja Santri <span class="text-amber-600 underline">Rafa Mart</span>
+                    <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black text-amber-100">
+                        Selamat Datang di <span class="font-qaf text-3xl sm:text-4xl gold-gradient-text">Qaf Market</span>
                     </h1>
-                    <p class="text-slate-600 text-xs md:text-sm leading-relaxed">
-                        Memudahkan wali santri, santri, serta para guru/ustadz dalam memenuhi kebutuhan harian. Pesan makanan, minuman, dan pakaian dari mana saja, kami antarkan langsung ke kamar santri.
+
+                    <p class="text-xs sm:text-sm text-amber-100/90 leading-relaxed font-normal max-w-2xl">
+                        Platform e-commerce Koperasi Pondok Pesantren berbasis digital yang dirancang khusus untuk mempermudah pemenuhan kebutuhan santri, guru, pengurus, serta wali santri secara praktis, amanah, dan berkah. Wali santri dapat membelikan kebutuhan putra-putrinya dari mana saja tanpa perlu datang langsung ke pondok!
                     </p>
-                    <div class="flex flex-wrap gap-3">
-                        <button type="button" onclick="bukaTab('katalog')" class="bg-amber-400 hover:bg-amber-500 text-amber-950 font-extrabold text-xs px-6 py-3.5 rounded-2xl shadow-md transition">
-                            <i class="fa-solid fa-bag-shopping mr-2"></i> Belanja Makanan & Barang
-                        </button>
-                        <button type="button" onclick="bukaTab('wali')" class="bg-white hover:bg-amber-50 text-slate-700 border border-amber-300 font-extrabold text-xs px-6 py-3.5 rounded-2xl transition">
-                            Formulir Wali Santri Jarak Jauh
-                        </button>
-                    </div>
                 </div>
 
-                <!-- Kartu Unggulan -->
-                <div class="bg-gradient-to-br from-amber-400 via-amber-500 to-yellow-500 text-amber-950 p-6 md:p-8 rounded-3xl shadow-lg space-y-4 border border-amber-300">
-                    <div class="flex justify-between items-start">
-                        <span class="bg-amber-950 text-amber-300 font-black text-[10px] uppercase px-3 py-1 rounded-full">Layanan Pengiriman</span>
-                        <i class="fa-solid fa-truck-fast text-3xl text-amber-950/40"></i>
+                <!-- IKON-IKON LAYANAN BERGERAK-GERAK (ANIMATED FLOATING SERVICE CARDS) -->
+                <div class="lg:col-span-5 grid grid-cols-2 gap-3 pt-2 lg:pt-0">
+                    <div class="floating-icon bg-white/10 backdrop-blur-md border border-amber-300/30 p-4 rounded-2xl text-center space-y-1 hover:bg-white/20 transition cursor-pointer">
+                        <i class="fa-solid fa-truck-fast text-3xl text-amber-400 mb-1"></i>
+                        <h4 class="text-xs font-extrabold text-amber-100 uppercase">Pengantaran</h4>
+                        <p class="text-[10px] text-amber-200">Langsung ke Kamar Santri</p>
                     </div>
-                    <div class="space-y-1">
-                        <h3 class="text-xl font-black">Langsung Diantar ke Kamar Santri</h3>
-                        <p class="text-xs text-amber-950/80 font-semibold leading-relaxed">Wali santri tidak perlu repot datang ke pondok. Cukup isi formulir dan pilih barang, pesanan langsung kami teruskan ke pengurus.</p>
+
+                    <div class="floating-icon delay-1 bg-white/10 backdrop-blur-md border border-amber-300/30 p-4 rounded-2xl text-center space-y-1 hover:bg-white/20 transition cursor-pointer">
+                        <i class="fa-solid fa-users-between-lines text-3xl text-amber-400 mb-1"></i>
+                        <h4 class="text-xs font-extrabold text-amber-100 uppercase">Layanan Wali</h4>
+                        <p class="text-[10px] text-amber-200">Pesan Jarak Jauh</p>
                     </div>
-                    <div class="bg-white/30 p-3 rounded-2xl border border-white/40 flex justify-between items-center text-xs font-bold">
-                        <span>Layanan Online:</span>
-                        <span class="bg-emerald-600 text-white px-2.5 py-1 rounded-lg">Aktif & Melayani</span>
+
+                    <div class="floating-icon delay-2 bg-white/10 backdrop-blur-md border border-amber-300/30 p-4 rounded-2xl text-center space-y-1 hover:bg-white/20 transition cursor-pointer">
+                        <i class="fa-solid fa-bolt text-3xl text-amber-400 mb-1"></i>
+                        <h4 class="text-xs font-extrabold text-amber-100 uppercase">Jasa Digital</h4>
+                        <p class="text-[10px] text-amber-200">Token, Pulsa & Tunai</p>
+                    </div>
+
+                    <div class="floating-icon delay-3 bg-white/10 backdrop-blur-md border border-amber-300/30 p-4 rounded-2xl text-center space-y-1 hover:bg-white/20 transition cursor-pointer">
+                        <i class="fa-brands fa-whatsapp text-3xl text-emerald-400 mb-1"></i>
+                        <h4 class="text-xs font-extrabold text-amber-100 uppercase">WhatsApp</h4>
+                        <p class="text-[10px] text-amber-200">Pesanan Otomatis</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- TAB 3: KATALOG PRODUK BERFOTO -->
-        <section id="tab-katalog" class="konten-tab space-y-6">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <!-- B. KATALOG PRODUK TERBAGI PER KATEGORI + FITUR REQUEST BARANG DI SETIAP KATEGORI -->
+        <section id="katalogSection" class="space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-amber-200 pb-4">
                 <div>
-                    <h2 class="text-2xl font-extrabold text-slate-900">Katalog Makanan, Snack, & Barang</h2>
-                    <p class="text-xs text-slate-500">Pilih menu makanan siap saji, snack, minuman, dan alat tulis dengan foto asli.</p>
-                </div>
-                <input type="text" id="pencarianInput" onkeyup="tampilkanKatalog()" placeholder="Cari makanan / barang..." class="border border-amber-300 bg-white px-4 py-2 rounded-xl text-xs w-full md:w-64 font-semibold">
-            </div>
-
-            <!-- Grid Produk -->
-            <div id="gridProduk" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                <!-- Javascript akan memuat produk di sini -->
-            </div>
-        </section>
-
-        <!-- TAB 4: FORM WALI SANTRI -->
-        <section id="tab-wali" class="konten-tab max-w-2xl mx-auto space-y-6">
-            <div class="bg-white border-2 border-amber-300 p-6 md:p-8 rounded-3xl shadow-xl space-y-6">
-                <div class="border-b border-amber-200 pb-4">
-                    <span class="text-xs font-bold text-amber-900 bg-amber-100 px-3 py-1 rounded-full uppercase">Layanan Jarak Jauh Wali Santri</span>
-                    <h2 class="text-2xl font-extrabold text-slate-900 mt-2">Form Pengiriman Barang Santri</h2>
-                    <p class="text-xs text-slate-500">Isi data di bawah ini agar pengurus tahu barang diantarkan ke kamar mana.</p>
+                    <h2 class="text-xl sm:text-2xl font-black text-amber-950 uppercase tracking-tight flex items-center">
+                        <i class="fa-solid fa-store mr-2.5 text-amber-600 animate-pulse"></i> Katalog Produk & Jasa Usaha Qaf Market
+                    </h2>
+                    <p class="text-xs font-semibold text-slate-600">Pilih kategori khusus di bawah untuk melihat produk & jasa yang tersedia.</p>
                 </div>
 
-                <div class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nama Lengkap Santri *</label>
-                            <input type="text" id="waliSantriNama" placeholder="Contoh: Ahmad Fauzan" class="w-full border border-amber-300 bg-amber-50/50 px-4 py-2.5 rounded-xl text-xs font-semibold">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Kelas / Kamar Santri *</label>
-                            <input type="text" id="waliSantriKamar" placeholder="Contoh: 3 Ulya / Kamar B-04" class="w-full border border-amber-300 bg-amber-50/50 px-4 py-2.5 rounded-xl text-xs font-semibold">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nama Wali Santri *</label>
-                        <input type="text" id="waliNama" placeholder="Contoh: Bapak H. Mahmud" class="w-full border border-amber-300 bg-amber-50/50 px-4 py-2.5 rounded-xl text-xs font-semibold">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Pesan / Catatan untuk Anak</label>
-                        <textarea id="waliPesan" rows="2" placeholder="Contoh: Belajar yang rajin ya nak, ini vitamin dan cemilannya." class="w-full border border-amber-300 bg-amber-50/50 px-4 py-2.5 rounded-xl text-xs font-semibold"></textarea>
-                    </div>
-                    <div class="bg-amber-100 p-4 rounded-2xl border border-amber-300 text-xs text-amber-950">
-                        <p class="font-bold mb-1"><i class="fa-solid fa-circle-info text-amber-700"></i> Cara Belanja Wali Santri:</p>
-                        <p>1. Isi formulir nama & kamar santri di atas.<br>2. Pilih makanan/barang di <button type="button" onclick="bukaTab('katalog')" class="font-bold underline text-amber-950">Katalog Makanan</button>.<br>3. Klik tombol <strong>Keranjang</strong> di kanan atas, lalu klik <strong>Kirim Pesanan via WhatsApp</strong>.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- TAB 5: PPOB PULSA / TOKEN -->
-        <section id="tab-ppob" class="konten-tab max-w-xl mx-auto space-y-6">
-            <div class="bg-white border-2 border-amber-300 p-6 md:p-8 rounded-3xl shadow-xl space-y-6">
-                <div class="text-center space-y-2">
-                    <div class="w-12 h-12 bg-amber-100 text-amber-900 rounded-2xl mx-auto flex items-center justify-center text-xl font-bold"><i class="fa-solid fa-bolt"></i></div>
-                    <h2 class="text-2xl font-extrabold text-slate-900">Pulsa & Token PLN Kamar</h2>
-                    <p class="text-xs text-slate-500">Layanan bayar pulsa dan token listrik praktis.</p>
-                </div>
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nomor HP / No. Meteran PLN</label>
-                        <input type="text" id="ppobNomor" placeholder="0812xxxxxxxx" class="w-full border border-amber-300 bg-amber-50/50 px-4 py-3 rounded-xl text-xs font-semibold">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nominal</label>
-                        <select id="ppobNominal" class="w-full border border-amber-300 bg-amber-50/50 px-4 py-3 rounded-xl text-xs font-bold">
-                            <option value="20000">Rp 20.000</option>
-                            <option value="50000">Rp 50.000</option>
-                            <option value="100000">Rp 100.000</option>
-                        </select>
-                    </div>
-                    <button type="button" onclick="alert('Pembayaran PPOB berhasil diproses!')" class="w-full bg-amber-400 hover:bg-amber-500 text-amber-950 font-extrabold py-3.5 rounded-2xl text-xs transition shadow-md">Beli Sekarang</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- TAB 6: DASHBOARD HASIL PESANAN (AKSES PENGURUS) -->
-        <section id="tab-admin" class="konten-tab space-y-6">
-            <div class="bg-white border-2 border-amber-300 p-6 md:p-8 rounded-3xl shadow-xl space-y-6">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-amber-200 pb-4 gap-2">
-                    <div>
-                        <span class="text-xs font-bold text-rose-700 bg-rose-100 px-3 py-1 rounded-full uppercase">Dashboard Hasil Pesanan Masuk</span>
-                        <h2 class="text-2xl font-extrabold text-slate-900 mt-2">Rekapitulasi Pesanan Wali Santri</h2>
-                        <p class="text-xs text-slate-500">Di sinilah kamu dapat memantau rincian barang belanjaan beserta nama & kamar santri.</p>
-                    </div>
-                    <button type="button" onclick="hapusRiwayat()" class="bg-rose-50 text-rose-700 hover:bg-rose-100 px-4 py-2 rounded-xl text-xs font-bold border border-rose-200 transition">Hapus Semua Riwayat</button>
-                </div>
-
-                <div id="wadahPesananAdmin" class="space-y-4">
-                    <!-- Javascript memuat data pesanan di sini -->
-                </div>
-            </div>
-        </section>
-
-        <!-- TAB 7: HALAMAN LOGOUT & KIRIM KE WHATSAPP -->
-        <section id="tab-logout" class="konten-tab max-w-md mx-auto py-6">
-            <div class="bg-white border-2 border-amber-300 p-6 md:p-8 rounded-3xl shadow-xl space-y-6 text-center">
-                <div class="w-16 h-16 bg-rose-100 text-rose-700 rounded-2xl mx-auto flex items-center justify-center text-3xl font-extrabold shadow-sm">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                </div>
-                <div class="space-y-1">
-                    <h2 class="text-2xl font-extrabold text-slate-900">Keluar Sesi (Logout)</h2>
-                    <p class="text-xs text-slate-500">Data sesi aktivitas Anda saat ini akan direkap dan dikirimkan langsung ke nomor WhatsApp pemilik (<strong class="text-amber-700">089523248631</strong>).</p>
-                </div>
-
-                <div class="space-y-4 text-left">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Catatan / Alasan Keluar (Opsional)</label>
-                        <textarea id="catatanLogout" rows="2" placeholder="Contoh: Selesai belanja, terima kasih." class="w-full border border-amber-300 bg-amber-50/50 px-4 py-2.5 rounded-xl text-xs font-semibold"></textarea>
-                    </div>
-
-                    <button type="button" onclick="prosesLogoutWA()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3.5 rounded-xl shadow-md transition text-xs uppercase flex items-center justify-center">
-                        <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Konfirmasi Logout & Kirim ke WA
+                <!-- Filter Kategori Tabs (NAMA 'KEBUTUHAN PRIBADI' DIUPDATE TANPA PARFUM) -->
+                <div class="flex items-center space-x-2 overflow-x-auto pb-2 sm:pb-0">
+                    <button onclick="filterCategory('snack')" class="cat-tab active-cat px-4 py-2 rounded-xl text-xs font-extrabold transition cursor-pointer whitespace-nowrap bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20" data-cat="snack">
+                        <i class="fa-solid fa-cookie-bite mr-1"></i> Snack & Makanan
                     </button>
-                    
-                    <button type="button" onclick="bukaTab('beranda')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl transition text-xs">
-                        Batalkan & Kembali
+                    <button onclick="filterCategory('atk')" class="cat-tab px-4 py-2 rounded-xl text-xs font-extrabold transition cursor-pointer whitespace-nowrap bg-white text-slate-700 hover:bg-amber-100" data-cat="atk">
+                        <i class="fa-solid fa-book-open mr-1"></i> Alat Tulis (ATK)
+                    </button>
+                    <button onclick="filterCategory('mandi')" class="cat-tab px-4 py-2 rounded-xl text-xs font-extrabold transition cursor-pointer whitespace-nowrap bg-white text-slate-700 hover:bg-amber-100" data-cat="mandi">
+                        <i class="fa-solid fa-soap mr-1"></i> Peralatan Mandi
+                    </button>
+                    <button onclick="filterCategory('pribadi')" class="cat-tab px-4 py-2 rounded-xl text-xs font-extrabold transition cursor-pointer whitespace-nowrap bg-white text-slate-700 hover:bg-amber-100" data-cat="pribadi">
+                        <i class="fa-solid fa-box-open mr-1"></i> Kebutuhan Pribadi
+                    </button>
+                    <button onclick="filterCategory('jasa')" class="cat-tab px-4 py-2 rounded-xl text-xs font-extrabold transition cursor-pointer whitespace-nowrap bg-white text-slate-700 hover:bg-amber-100" data-cat="jasa">
+                        <i class="fa-solid fa-bolt mr-1"></i> Jasa & Digital Custom
                     </button>
                 </div>
             </div>
+
+            <!-- KOTAK REQUEST BARANG DINAMIS DI SETIAP KATEGORI PERLENGKAPAN -->
+            <div id="itemRequestBox" class="bg-gradient-to-r from-amber-500/15 via-amber-400/20 to-yellow-500/15 border-2 border-amber-300 rounded-3xl p-5 shadow-sm space-y-3">
+                <div class="flex items-center space-x-2 text-amber-950 font-black text-sm">
+                    <i class="fa-solid fa-circle-plus text-amber-600 text-base"></i>
+                    <span id="requestBoxTitle">Request Barang / Kebutuhan Yang Tidak Ada Di Katalog</span>
+                </div>
+                <p class="text-xs text-slate-700 font-medium">Barang yang kamu cari belum terdaftar di katalog? Tuliskan nama barang dan estimasi harganya, Kopontren akan membelikan khusus!</p>
+                <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+                    <div class="sm:col-span-6">
+                        <input type="text" id="reqItemName" placeholder="Nama barang / kebutuhan..." class="w-full bg-white border border-amber-300 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-900 focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div class="sm:col-span-4">
+                        <input type="number" id="reqItemPrice" placeholder="Est. Harga Rp (contoh: 10000)" class="w-full bg-white border border-amber-300 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-900 focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <button onclick="addRequestItemToCart()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-black py-2.5 rounded-xl text-xs shadow-md transition cursor-pointer flex items-center justify-center space-x-1">
+                            <i class="fa-solid fa-plus"></i>
+                            <span>Request</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid Produk (Ukuran Gambar Diperbaiki & Kartu Beranimasi Interaktif) -->
+            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Javascript will inject product cards here -->
+            </div>
         </section>
 
-        <!-- TAMPILAN KERANJANG BELANJA -->
-        <section id="wadahKeranjang" class="hidden bg-white border-2 border-amber-400 p-6 rounded-3xl shadow-2xl space-y-4 max-w-lg mx-auto mt-8">
-            <div class="flex justify-between items-center border-b border-amber-200 pb-3">
-                <h3 class="text-lg font-extrabold text-slate-900"><i class="fa-solid fa-basket-shopping text-amber-600 mr-2"></i>Keranjang Belanja Anda</h3>
-                <button type="button" onclick="tutupKeranjang()" class="text-slate-400 hover:text-slate-600 font-bold"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
-
-            <div id="daftarItemKeranjang" class="space-y-2 divide-y divide-slate-100">
-                <!-- Item Keranjang -->
-            </div>
-
-            <div class="border-t border-amber-200 pt-4 space-y-3">
-                <div class="flex justify-between items-center font-extrabold text-base">
-                    <span>Total Pembayaran:</span>
-                    <span id="totalHargaKeranjang" class="text-amber-800">Rp 0</span>
+        <!-- C. RIWAYAT PESANAN REALTIME -->
+        <section id="riwayatSection" class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-amber-200/80 shadow-xl space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+                <div>
+                    <h3 class="text-xl font-black text-amber-950 uppercase flex items-center">
+                        <i class="fa-solid fa-clock-rotate-left mr-2.5 text-amber-600"></i> Riwayat Pesanan Masuk Qaf Market
+                    </h3>
+                    <p class="text-xs text-slate-500 font-medium">Daftar transaksi pesanan santri, wali santri, dan guru.</p>
                 </div>
-                <button type="button" onclick="kirimKeWhatsApp()" class="w-full bg-amber-400 hover:bg-amber-500 text-amber-950 font-extrabold py-3.5 rounded-2xl shadow-md transition text-xs flex items-center justify-center">
-                    <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Kirim Pesanan via WhatsApp & Simpan
-                </button>
+                <div class="flex items-center space-x-2 text-xs font-extrabold text-amber-800 bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200">
+                    <i class="fa-solid fa-circle-dot text-emerald-500 animate-pulse"></i>
+                    <span>Pembaruan Otomatis</span>
+                </div>
+            </div>
+
+            <div id="historyContainer" class="space-y-3">
+                <!-- Javascript will inject order history items here -->
             </div>
         </section>
 
     </main>
 
-    <!-- FOOTER -->
-    <footer class="bg-white border-t border-amber-200 py-6">
-        <div class="container mx-auto px-4 text-center space-y-1">
-            <p class="text-xs font-extrabold text-slate-800">RAFA MART - KOPERASI PONDOK PESANTREN</p>
-            <p class="text-[11px] text-slate-400">&copy; 2026 Rafa Mart. Tema Kuning Keemasan Estetik.</p>
+    <!-- ========================================== -->
+    <!-- 4. DRAWER KERANJANG BELANJA & CHECKOUT    -->
+    <!-- ========================================== -->
+    <div id="cartDrawerBackdrop" onclick="toggleCartDrawer()" class="hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm transition-opacity duration-300"></div>
+    
+    <div id="cartDrawer" class="fixed top-0 right-0 z-50 h-full w-full max-w-md bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+        <div class="p-5 border-b border-slate-200 bg-amber-500 text-slate-950 flex items-center justify-between">
+            <div class="flex items-center space-x-2.5">
+                <i class="fa-solid fa-cart-shopping text-xl"></i>
+                <h3 class="text-base font-black uppercase tracking-wider">Keranjang Pesanan</h3>
+            </div>
+            <button onclick="toggleCartDrawer()" class="p-2 hover:bg-amber-600 rounded-xl transition cursor-pointer">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+
+        <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-5 space-y-4 divide-y divide-slate-100">
+            <!-- Items injected by JS -->
+        </div>
+
+        <div class="p-5 border-t border-slate-200 bg-slate-50 space-y-4">
+            <div class="bg-white p-4 rounded-2xl border border-amber-200 space-y-3 shadow-sm text-xs">
+                <h4 class="font-black text-amber-950 uppercase tracking-wider text-[11px] border-b pb-1.5 flex items-center">
+                    <i class="fa-solid fa-paper-plane mr-1.5 text-amber-600"></i> Informasi Pemesan & Pengantaran
+                </h4>
+
+                <!-- INPUT NAMA PEMESAN / PENGIRIM KOSONG (USER MENGISI SENDIRI) -->
+                <div>
+                    <label class="block font-bold text-slate-700 uppercase mb-1 text-[10px]">Nama Pemesan / Pengirim</label>
+                    <input type="text" id="namaPengirimInput" placeholder="Ketikkan nama lengkap Anda..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 font-semibold text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-amber-500">
+                </div>
+
+                <!-- OPSI PENERIMA (PESAN DIRI SENDIRI / SANTRI) -->
+                <div>
+                    <label class="block font-bold text-slate-700 uppercase mb-1 text-[10px]">Penerima Pesanan</label>
+                    <select id="penerimaType" onchange="togglePenerimaFields()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 font-semibold text-slate-800 focus:outline-none focus:border-amber-500">
+                        <option value="Diri Sendiri">Pesan Untuk Diri Sendiri</option>
+                        <option value="Santri">Kirimkan Ke Santri (Pesanan Wali / Guru)</option>
+                    </select>
+                </div>
+
+                <div id="santriRecipientFields" class="hidden space-y-2 pt-1">
+                    <div>
+                        <input type="text" id="namaSantriTujuan" placeholder="Nama Lengkap Santri Penerima" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 font-semibold text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="text" id="kamarSantriTujuan" placeholder="Kamar / Rayon" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 font-semibold text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-amber-500">
+                        <input type="text" id="asramaSantriTujuan" placeholder="Gedung / Asrama" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 font-semibold text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-amber-500">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block font-bold text-slate-700 uppercase mb-1 text-[10px]">Tgl Pengantaran</label>
+                        <input type="date" id="tglPengantaran" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 font-bold text-slate-800 focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 uppercase mb-1 text-[10px]">Waktu Diantar</label>
+                        <select id="jamPengantaran" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2 py-1.5 font-bold text-slate-800 focus:outline-none focus:border-amber-500">
+                            <option value="Bada Subuh (06:00 - 07:00)">Ba'da Subuh</option>
+                            <option value="Jam Istirahat (12:00 - 13:00)">Jam Istirahat</option>
+                            <option value="Bada Ashar (16:00 - 17:00)">Ba'da Ashar</option>
+                            <option value="Bada Isya (20:00 - 21:00)">Ba'da Isya</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between text-slate-900 font-black">
+                <span class="text-xs uppercase">Total Pembayaran:</span>
+                <span id="cartTotalPrice" class="text-xl text-amber-600">Rp 0</span>
+            </div>
+
+            <button onclick="processWhatsAppCheckout()" class="relative overflow-hidden w-full bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold py-3.5 rounded-2xl shadow-lg shadow-emerald-500/30 transition flex items-center justify-center space-x-2 text-xs uppercase tracking-wider cursor-pointer group">
+                <i class="fa-brands fa-whatsapp text-xl group-hover:scale-110 transition-transform"></i>
+                <span>Kirim Pesanan Ke WhatsApp</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFIKASI -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center space-x-3 border border-amber-400">
+        <div id="toastIcon" class="text-lg"></div>
+        <div>
+            <h4 id="toastTitle" class="text-xs font-bold"></h4>
+            <p id="toastMessage" class="text-[11px] text-slate-300 font-medium"></p>
+        </div>
+    </div>
+
+    <!-- FOOTER APLIKASI -->
+    <footer id="mainFooter" class="hidden bg-slate-900 text-amber-100/70 border-t border-amber-900/50 mt-12 py-8 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <span class="font-qaf text-3xl font-extrabold gold-gradient-text leading-none">Qaf</span>
+                <span class="font-extrabold text-slate-200">MARKET &copy; 2026 Koperasi Digital Pesantren</span>
+            </div>
+            <p class="text-[11px] text-slate-400">Mewujudkan kemandirian ekonomi pesantren secara transparan & amanah.</p>
         </div>
     </footer>
 
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- ========================================== -->
+    <!-- 5. JAVASCRIPT LOGIK & INTERAKSI DINAMIS   -->
+    <!-- ========================================== -->
     <script>
-        // Database Produk Makanan, Snack, & Barang
-        const daftarProduk = [
-            { id: 1, name: "Nasi Ayam Penyet Santri", price: 15000, category: "Makanan Berat", img: "https://images.unsplash.com/photo-1626532025135-729487c53d0d?w=400&auto=format&fit=crop&q=60" },
-            { id: 2, name: "Nasi Goreng Spesial Pondok", price: 13000, category: "Makanan Berat", img: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&auto=format&fit=crop&q=60" },
-            { id: 3, name: "Mie Instan Rebus Telur", price: 8000, category: "Makanan Berat", img: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&auto=format&fit=crop&q=60" },
-            { id: 4, name: "Keripik Singkong Barokah", price: 6000, category: "Snack & Roti", img: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=400&auto=format&fit=crop&q=60" },
-            { id: 5, name: "Roti Coklat Keju Santri", price: 5000, category: "Snack & Roti", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&auto=format&fit=crop&q=60" },
-            { id: 6, name: "Es Teh Manis Jumbo", price: 4000, category: "Minuman", img: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&auto=format&fit=crop&q=60" },
-            { id: 7, name: "Susu Murni Hangat / Dingin", price: 7000, category: "Minuman", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&auto=format&fit=crop&q=60" },
-            { id: 8, name: "Paket Buku & Pulpen Lengkap", price: 25000, category: "ATK", img: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=400&auto=format&fit=crop&q=60" },
-            { id: 9, name: "Sarung Santri Premium", price: 95000, category: "Pakaian", img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&auto=format&fit=crop&q=60" },
-            { id: 10, name: "Baju Koko Putih Elegan", price: 85000, category: "Pakaian", img: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=400&auto=format&fit=crop&q=60" }
+        // --- A. PRODUK KATALOG REALISTIS (LINK FOTO DIPERBARUI KESELURUHAN) ---
+        const productsData = [
+            // Kategori: Snack & Makanan / Minuman
+            { id: 101, category: 'snack', name: 'Beng-Beng Wafer Cokelat 20g', price: 2500, icon: 'fa-cookie', image: 'https://i.pinimg.com/1200x/f6/d4/b6/f6d4b6edda4183c2a32b762233d596ed.jpg', desc: 'Wafer cokelat karamel renyah favorit santri.' },
+            { id: 102, category: 'snack', name: 'Better Biskuit Sandwich Cokelat', price: 2000, icon: 'fa-cookie-bite', image: 'https://arti-assets.sgp1.cdn.digitaloceanspaces.com/renyswalayanku/products/17f3ba6d-9ac2-4866-ae35-fdde5eea2f09.jpg', desc: 'Biskuit isi krim vanilla berlapis cokelat tebal.' },
+            { id: 103, category: 'snack', name: 'Gerry Salut Malkist Cokelat', price: 7500, icon: 'fa-bread-slice', image: 'https://arti-assets.sgp1.cdn.digitaloceanspaces.com/renyswalayanku/products/94cadead-e3ae-4284-9bb8-56902f427abe.jpg', desc: 'Malkist renyah dengan rasa cokelat lumer.' },
+            { id: 104, category: 'snack', name: 'Chitato Keripik Kentang 68g', price: 11500, icon: 'fa-box-open', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS32Hsm44JhZ25pPVIXVo3kUi06901oZKqDgoKar1LVQw&s=10', desc: 'Keripik kentang bergelombang rasa sapi panggang.' },
+            { id: 105, category: 'snack', name: 'Pop Mie Rasa Soto Ayam', price: 7500, icon: 'fa-bowl-food', image: 'https://www.popmie.com/uploads/product/lapeer-rasa-soto-ayam_text.png', desc: 'Mie seduh praktis hangat rasa soto ayam lezat.' },
+            { id: 106, category: 'snack', name: 'Teh Pucuk Harum 350ml', price: 4000, icon: 'fa-bottle-water', image: 'https://cdn.bormadago.com/media/images/products/2021/03/8996001600207.jpg', desc: 'Teh manis segar dari pucuk daun teh pilihan.' },
+
+            // Kategori: Alat Tulis (ATK)
+            { id: 201, category: 'atk', name: 'Buku Tulis Sidu 38 Lembar (Pack 10)', price: 38000, icon: 'fa-book-open', image: 'https://down-id.img.susercontent.com/file/b799fd2a2164fd206dfdbc672933c8ec', desc: 'Kertas putih berkualitas untuk catatan pengajian.' },
+            { id: 202, category: 'atk', name: 'Pulpen Pilot G2 Gel Hitam', price: 5000, icon: 'fa-pen-nib', image: 'https://image.astronauts.cloud/product-images/2026/7/PulpenGelHitam3ee31_975f70b3-4049-4115-a825-7cada162af35_900x900.jpg', desc: 'Tinta gel lancar tidak macet untuk nulis maknani.' },
+            { id: 203, category: 'atk', name: 'Pensil Joyko 2B & Penghapus Set', price: 6500, icon: 'fa-pencil', image: 'https://down-id.img.susercontent.com/file/b4d66990d6e3a0e6ab4aa76f29d5d2a4', desc: 'Perlengkapan standar ujian sekolah & madrasah.' },
+
+            // Kategori: Peralatan Mandi (FOTO-FOTO DARI LINK BARU)
+            { id: 301, category: 'mandi', name: 'Sabun Mandi Lifebuoy Red 110g', price: 4500, icon: 'fa-soap', image: 'https://down-id.img.susercontent.com/file/id-11134207-7r98u-lld8t7uaksq152', desc: 'Perlindungan kuman mandi harian santri.' },
+            { id: 302, category: 'mandi', name: 'Sampo Sunsilk Black Shine 160ml', price: 21000, icon: 'fa-pump-soap', image: 'https://assets.unileversolutions.com/v1/100440665.png', desc: 'Rambut hitam berkilau dan harum segar.' },
+            { id: 303, category: 'mandi', name: 'Pasta Gigi Pepsodent 190g', price: 13500, icon: 'fa-tooth', image: 'https://cdn.bormadago.com/media/images/products/2021/07/DSC_1067_copy.jpg', desc: 'Gigi sehat dan nafas segar.' },
+
+            // Kategori: Kebutuhan Pribadi (FOTO-FOTO DARI LINK BARU)
+            { id: 401, category: 'pribadi', name: 'Parfum Casablanca Non-Alkohol 6ml', price: 22000, icon: 'fa-spray-can-sparkles', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR00NxUIJ3josK4n75_lvcbShbx2sEWnlloJ6VxzcQPQ9AvBZf-fSkawSp6&s=10', desc: 'Wangi harum elegan untuk shalat & majlis.' },
+            { id: 402, category: 'pribadi', name: 'Sarung Tenun Gajah Duduk / Mangga', price: 78000, icon: 'fa-shirt', image: 'https://down-id.img.susercontent.com/file/id-11134207-8224y-mhangceoo55b4b', desc: 'Bahan tenun adem dan nyaman dipakai pengajian.' },
+            { id: 403, category: 'pribadi', name: 'Sajadah Turki Empuk / Handuk Mandi', price: 35000, icon: 'fa-rug', image: 'https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/f12b0fcc0b9c421db2ba5616195eeefe~tplv-aphluv4xwc-resize-jpeg:700:0.jpeg', desc: 'Perlengkapan ibadah & perlengkapan harian santri.' },
+
+            // Kategori: Jasa & Digital Custom
+            { id: 501, category: 'jasa', name: 'Token Listrik PLN (Nominal Custom)', isCustomJasa: true, type: 'Token Listrik', icon: 'fa-bolt', image: 'https://images.unsplash.com/photo-1544725121-be3bf52e2dc8?w=500&auto=format&fit=crop&q=80', desc: 'Masukkan nominal token listrik stroom kamar.' },
+            { id: 502, category: 'jasa', name: 'Tarik Tunai Uang Saku (Nominal Custom)', isCustomJasa: true, type: 'Tarik Tunai', icon: 'fa-money-bill-transfer', image: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=500&auto=format&fit=crop&q=80', desc: 'Pengambilan uang saku santri via transfer wali.' },
+            { id: 503, category: 'jasa', name: 'Isi Pulsa & Kuota HP (Nominal Custom)', isCustomJasa: true, type: 'Pulsa / Kuota', icon: 'fa-mobile-screen-button', image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500&auto=format&fit=crop&q=80', desc: 'Isi pulsa & kuota nomor HP santri/guru.' }
         ];
 
-        let keranjang = [];
-        let dataPesananAdmin = JSON.parse(localStorage.getItem('rafa_orders')) || [];
-        const targetNomorWA = "6289523248631"; // Nomor WhatsApp tujuan
-
-        // Update Jam & Tanggal Realtime
-        function perbaruiJam() {
-            const sekarang = new Date();
-            const jamStr = sekarang.toLocaleTimeString('id-ID');
-            const opsiTgl = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const tglStr = sekarang.toLocaleDateString('id-ID', opsiTgl);
-
-            document.getElementById('jamDesktop').innerText = jamStr;
-            document.getElementById('tglDesktop').innerText = tglStr;
-            document.getElementById('jamMobile').innerText = jamStr;
-            document.getElementById('tglMobile').innerText = tglStr;
-        }
-        setInterval(perbaruiJam, 1000);
-        perbaruiJam();
-
-        // Pindah Tab Navigasi Sederhana
-        function bukaTab(namaTab) {
-            document.querySelectorAll('.konten-tab').forEach(el => {
-                el.classList.remove('aktif');
-            });
-            const tabTujuan = document.getElementById('tab-' + namaTab);
-            if(tabTujuan) {
-                tabTujuan.classList.add('aktif');
+        // --- B. DATABASE DUMMY RIWAYAT PESANAN ---
+        let orderHistory = [
+            {
+                id: 'ORD-8812',
+                senderName: 'Bpk. Ahmad Fauzi',
+                buyerRole: 'Wali Santri',
+                recipient: 'Santri: Ahmad Ridho (Kamar B-02 / Asrama Sunan Giri)',
+                items: 'Beng-Beng (4x), Gerry Salut Malkist (2x), Tarik Tunai Rp 100.000 (1x)',
+                total: 115000,
+                deliverDate: '2026-10-26',
+                deliverTime: 'Jam Istirahat (12:00 - 13:00)',
+                status: 'Selesai Diantar',
+                timestamp: '25/10/2026, 19:40 WIB'
+            },
+            {
+                id: 'ORD-8813',
+                senderName: 'Ustadz Ridwan, S.Pd',
+                buyerRole: 'Guru',
+                recipient: 'Diri Sendiri (Guru)',
+                items: 'Buku Tulis Sidu Pack (1x), Pulpen Pilot Gel (3x)',
+                total: 53000,
+                deliverDate: '2026-10-26',
+                deliverTime: 'Ba\'da Ashar (16:00 - 17:00)',
+                status: 'Diproses Kopontren',
+                timestamp: '25/10/2026, 20:10 WIB'
             }
-            if(namaTab === 'katalog') tampilkanKatalog();
-            if(namaTab === 'admin') tampilkanPesananAdmin();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        ];
+
+        let currentUserRole = null;
+        let currentActiveCategory = 'snack';
+        let cart = [];
+
+        const kodeResmi = {
+            "Santri": "STR-1234",
+            "Guru": "GRU-5678",
+            "Wali Santri": "WAL-9012",
+            "Pengurus": "ADM-9999",
+            "Admin Qaf": "ADM-QAF"
+        };
+
+        function toggleLihatKode() {
+            const input = document.getElementById('kodeOtentikasi');
+            const icon = document.getElementById('eyeIcon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
         }
 
-        // Proses Login
-        function prosesLogin() {
-            const peran = document.getElementById('pilihanPeran').value;
-            const id = document.getElementById('inputID').value;
-            if(!id) { alert('Silakan masukkan ID atau nomor WhatsApp Anda.'); return; }
+        function validasiAkses() {
+            const peran = document.getElementById('roleLogin').value;
+            const inputKode = document.getElementById('kodeOtentikasi').value.trim();
 
-            document.getElementById('roleAkunAktif').innerText = peran.toUpperCase() + ' (' + id + ')';
-            bukaTab('beranda');
+            if (!inputKode) {
+                showToast('Peringatan', 'Silakan masukkan Kode ID Anda.', false);
+                triggerShake();
+                return;
+            }
+
+            if (inputKode === kodeResmi[peran] || inputKode === 'ADM-9999') {
+                currentUserRole = peran;
+                showToast('Akses Diterima!', `Masuk sebagai ${peran}.`, true);
+                
+                setTimeout(() => {
+                    document.getElementById('loginView').classList.add('hidden');
+                    document.getElementById('mainHeader').classList.remove('hidden');
+                    document.getElementById('mainApp').classList.remove('hidden');
+                    document.getElementById('mainFooter').classList.remove('hidden');
+                    
+                    document.getElementById('activeUserRoleLabel').innerText = currentUserRole;
+
+                    const tomorrow = new Date();
+                    tomorrow.setDate(tomorrow.getDate() + 1);
+                    document.getElementById('tglPengantaran').value = tomorrow.toISOString().split('T')[0];
+
+                    filterCategory('snack');
+                    renderHistory();
+                }, 500);
+
+            } else {
+                showToast('Kode ID Salah!', `Kode ID tidak terdaftar untuk ${peran}.`, false);
+                triggerShake();
+            }
         }
 
-        // Tampilkan Katalog Makanan & Barang
-        function tampilkanKatalog() {
-            const grid = document.getElementById('gridProduk');
+        function triggerShake() {
+            const card = document.getElementById('loginCard');
+            card.classList.add('animate-shake');
+            setTimeout(() => { card.classList.remove('animate-shake'); }, 500);
+        }
+
+        function bantuanKode() {
+            showToast('Lupa Kode ID?', 'Silakan hubungi Pengurus Kopontren di sekretariat pondok.', true);
+        }
+
+        function logout() {
+            currentUserRole = null;
+            cart = [];
+            updateCartUI();
+            document.getElementById('mainHeader').classList.add('hidden');
+            document.getElementById('mainApp').classList.add('hidden');
+            document.getElementById('mainFooter').classList.add('hidden');
+            document.getElementById('loginView').classList.remove('hidden');
+            document.getElementById('kodeOtentikasi').value = '';
+            showToast('Keluar Berhasil', 'Sampai jumpa kembali di QAF Market.', true);
+        }
+
+        // --- C. RENDERING PRODUK PER KATEGORI (DENGAN PERBAIKAN UKURAN GAMBAR & ANIMASI INTERAKTIF) ---
+        function renderProducts(catFilter = 'snack') {
+            currentActiveCategory = catFilter;
+            const grid = document.getElementById('productGrid');
+            const reqBoxTitle = document.getElementById('requestBoxTitle');
+
+            const catTitles = {
+                'snack': 'Request Snack / Jajanan Khusus',
+                'atk': 'Request Alat Tulis / ATK Khusus',
+                'mandi': 'Request Peralatan Mandi Khusus',
+                'pribadi': 'Request Kebutuhan Pribadi Khusus',
+                'jasa': 'Request Layanan Jasa / Digital Custom'
+            };
+            reqBoxTitle.innerText = catTitles[catFilter] || 'Request Barang Khusus';
+
             grid.innerHTML = '';
-            const katakunci = document.getElementById('pencarianInput').value.toLowerCase();
+            const filtered = productsData.filter(p => p.category === catFilter);
 
-            const hasilFilter = daftarProduk.filter(p => p.name.toLowerCase().includes(katakunci));
-
-            hasilFilter.forEach(p => {
-                grid.innerHTML += `
-                    <div class="bg-white border border-amber-300 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-between">
-                        <div>
-                            <div class="h-28 w-full bg-amber-50 overflow-hidden">
-                                <img src="${p.img}" alt="${p.name}" class="w-full h-full object-cover">
+            filtered.forEach(p => {
+                const card = document.createElement('div');
+                card.className = "product-card-interactive bg-white rounded-3xl border-2 border-amber-200/80 p-4 shadow-sm flex flex-col justify-between relative overflow-hidden group";
+                
+                if (p.isCustomJasa) {
+                    card.innerHTML = `
+                        <div class="space-y-3">
+                            <!-- Container Gambar Rapi Fit & Animasi -->
+                            <div class="relative h-48 rounded-2xl overflow-hidden bg-amber-50/60 flex items-center justify-center p-3 border border-amber-100 shadow-inner">
+                                <img src="${p.image}" alt="${p.name}" class="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-500 animate-img-alive">
+                                <span class="absolute top-3 left-3 bg-amber-950/80 backdrop-blur-md text-amber-300 text-[9.5px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider shadow-md">
+                                    <i class="fa-solid ${p.icon} mr-1"></i> Jasa Custom
+                                </span>
                             </div>
-                            <div class="p-3 space-y-1">
-                                <span class="text-[9px] uppercase font-extrabold text-amber-900 bg-amber-100 px-2 py-0.5 rounded">${p.category}</span>
-                                <h4 class="font-bold text-slate-800 text-xs leading-snug">${p.name}</h4>
+                            <div>
+                                <h3 class="font-extrabold text-slate-900 text-sm leading-snug line-clamp-1 group-hover:text-amber-700 transition">${p.name}</h3>
+                                <p class="text-[11px] text-slate-500 line-clamp-2 mt-1 font-normal">${p.desc}</p>
+                            </div>
+                            <div class="bg-amber-50 p-2.5 rounded-xl border border-amber-200">
+                                <label class="block text-[9.5px] font-extrabold text-amber-900 uppercase mb-1">Masukkan Nominal Rp:</label>
+                                <input type="number" id="customInput_${p.id}" placeholder="Contoh: 50000" class="w-full bg-white border border-amber-300 rounded-lg px-2.5 py-1.5 text-xs font-bold text-slate-900 focus:outline-none focus:border-amber-500">
                             </div>
                         </div>
-                        <div class="p-3 pt-0 flex justify-between items-center">
-                            <span class="font-extrabold text-amber-800 text-xs">Rp ${p.price.toLocaleString('id-ID')}</span>
-                            <button type="button" onclick="tambahKeKeranjang(${p.id})" class="bg-amber-400 hover:bg-amber-500 text-amber-950 px-2.5 py-1 rounded-xl text-[11px] font-extrabold">
-                                + Beli
+
+                        <div class="pt-3 border-t border-slate-100 flex items-center justify-between mt-3">
+                            <div>
+                                <span class="text-[9.5px] font-bold text-slate-400 block uppercase">Nominal</span>
+                                <span class="text-xs font-black text-amber-600">Isi Mandiri</span>
+                            </div>
+                            <button onclick="addCustomJasaToCart(${p.id})" class="relative overflow-hidden bg-amber-400 hover:bg-amber-500 text-slate-950 px-3.5 py-2 rounded-xl text-xs font-black shadow-md shadow-amber-500/20 transition flex items-center space-x-1 cursor-pointer group">
+                                <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/50 to-transparent -translate-x-full animate-shimmer"></span>
+                                <i class="fa-solid fa-plus text-xs"></i>
+                                <span>Tambah Jasa</span>
                             </button>
                         </div>
-                    </div>
-                `;
-            });
-        }
-
-        // Keranjang Belanja
-        function tambahKeKeranjang(id) {
-            const produk = daftarProduk.find(p => p.id === id);
-            const ada = keranjang.find(item => item.id === id);
-            if(ada) { ada.qty++; } else { keranjang.push({ ...produk, qty: 1 }); }
-            perbaruiKeranjang();
-            alert(`"${produk.name}" ditambahkan ke keranjang!`);
-        }
-
-        function perbaruiKeranjang() {
-            const totalItem = keranjang.reduce((sum, item) => sum + item.qty, 0);
-            document.getElementById('jumlahKeranjang').innerText = totalItem;
-
-            const wadah = document.getElementById('daftarItemKeranjang');
-            const totalEl = document.getElementById('totalHargaKeranjang');
-            wadah.innerHTML = '';
-
-            if(keranjang.length === 0) {
-                wadah.innerHTML = '<p class="text-center text-slate-400 py-4 text-xs">Keranjang masih kosong.</p>';
-                totalEl.innerText = 'Rp 0';
-                return;
-            }
-
-            let total = 0;
-            keranjang.forEach(item => {
-                let sub = item.price * item.qty;
-                total += sub;
-                wadah.innerHTML += `
-                    <div class="flex justify-between items-center py-2 text-xs">
-                        <div>
-                            <p class="font-bold text-slate-800">${item.name}</p>
-                            <p class="text-slate-400">Rp ${item.price.toLocaleString('id-ID')} x ${item.qty}</p>
+                    `;
+                } else {
+                    card.innerHTML = `
+                        <div class="space-y-3">
+                            <!-- Container Gambar Rapi Presisi & Animasi Alive -->
+                            <div class="relative h-48 rounded-2xl overflow-hidden bg-amber-50/60 flex items-center justify-center p-3 border border-amber-100 shadow-inner">
+                                <img src="${p.image}" alt="${p.name}" class="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-500 animate-img-alive">
+                                <span class="absolute top-3 left-3 bg-amber-950/80 backdrop-blur-md text-amber-300 text-[9.5px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider shadow-md">
+                                    <i class="fa-solid ${p.icon} mr-1"></i> ${p.category}
+                                </span>
+                            </div>
+                            <div>
+                                <h3 class="font-extrabold text-slate-900 text-sm leading-snug line-clamp-1 group-hover:text-amber-700 transition">${p.name}</h3>
+                                <p class="text-[11px] text-slate-500 line-clamp-2 mt-1 font-normal">${p.desc}</p>
+                            </div>
                         </div>
-                        <span class="font-bold text-slate-900">Rp ${sub.toLocaleString('id-ID')}</span>
-                    </div>
-                `;
+
+                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between mt-3">
+                            <div>
+                                <span class="text-[9.5px] font-bold text-slate-400 block uppercase">Harga</span>
+                                <span class="text-base font-black text-amber-600">Rp ${p.price.toLocaleString('id-ID')}</span>
+                            </div>
+                            <button onclick="addToCart(${p.id})" class="relative overflow-hidden bg-amber-400 hover:bg-amber-500 text-slate-950 px-3.5 py-2 rounded-xl text-xs font-black shadow-md shadow-amber-500/20 transition flex items-center space-x-1 cursor-pointer group">
+                                <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/50 to-transparent -translate-x-full animate-shimmer"></span>
+                                <i class="fa-solid fa-plus text-xs"></i>
+                                <span>Tambah</span>
+                            </button>
+                        </div>
+                    `;
+                }
+                grid.appendChild(card);
             });
-            totalEl.innerText = 'Rp ' + total.toLocaleString('id-ID');
         }
 
-        function bukaKeranjang() {
-            document.getElementById('wadahKeranjang').classList.remove('hidden');
-            perbaruiKeranjang();
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-        }
-
-        function tutupKeranjang() {
-            document.getElementById('wadahKeranjang').classList.add('hidden');
-        }
-
-        // Checkout Kirim WhatsApp & Simpan Pesanan
-        function kirimKeWhatsApp() {
-            if(keranjang.length === 0) { alert('Keranjang masih kosong!'); return; }
-
-            const santri = document.getElementById('waliSantriNama').value || 'Santri Umum';
-            const kamar = document.getElementById('waliSantriKamar').value || '-';
-            const wali = document.getElementById('waliNama').value || 'Wali Santri';
-            const pesan = document.getElementById('waliPesan').value || '-';
-            const waktuNow = new Date().toLocaleString('id-ID');
-
-            let total = 0;
-            let teksBarang = '';
-            keranjang.forEach((item, idx) => {
-                let sub = item.price * item.qty;
-                total += sub;
-                teksBarang += `${idx+1}. ${item.name} (${item.qty}x) = Rp ${sub.toLocaleString('id-ID')}\n`;
+        function filterCategory(cat) {
+            document.querySelectorAll('.cat-tab').forEach(btn => {
+                if (btn.getAttribute('data-cat') === cat) {
+                    btn.className = "cat-tab active-cat px-4 py-2 rounded-xl text-xs font-extrabold transition cursor-pointer whitespace-nowrap bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20";
+                } else {
+                    btn.className = "cat-tab px-4 py-2 rounded-xl text-xs font-extrabold transition cursor-pointer whitespace-nowrap bg-white text-slate-700 hover:bg-amber-100";
+                }
             });
-
-            // Simpan ke database pengurus
-            const pesananBaru = {
-                waktu: waktuNow,
-                wali: wali,
-                santri: santri,
-                kamar: kamar,
-                pesan: pesan,
-                items: [...keranjang],
-                total: total
-            };
-            dataPesananAdmin.unshift(pesananBaru);
-            localStorage.setItem('rafa_orders', JSON.stringify(dataPesananAdmin));
-
-            let waTeks = `*PESANAN RAFA MART KOPONTREN*\n\n` +
-                         `*Waktu:* ${waktuNow}\n` +
-                         `*Wali Pemesan:* ${wali}\n` +
-                         `*Nama Santri:* ${santri}\n` +
-                         `*Kamar/Kelas:* ${kamar}\n` +
-                         `*Pesan:* ${pesan}\n\n` +
-                         `*Rincian Belanja:*\n${teksBarang}\n` +
-                         `*TOTAL: Rp ${total.toLocaleString('id-ID')}*\n\n` +
-                         `Mohon disiapkan dan diantarkan ke kamar santri. Terima kasih!`;
-
-            window.open(`https://wa.me/${targetNomorWA}?text=${encodeURIComponent(waTeks)}`, '_blank');
-            keranjang = [];
-            perbaruiKeranjang();
-            tutupKeranjang();
-            alert('Pesanan berhasil dikirim ke WhatsApp dan tersimpan di Dashboard Hasil Pesanan Pengurus!');
+            renderProducts(cat);
         }
 
-        // Dashboard Hasil Pesanan Pengurus
-        function tampilkanPesananAdmin() {
-            const wadah = document.getElementById('wadahPesananAdmin');
-            wadah.innerHTML = '';
+        // --- D. REQUEST BARANG DINAMIS DI SETIAP KATEGORI ---
+        function addRequestItemToCart() {
+            const name = document.getElementById('reqItemName').value.trim();
+            const priceVal = document.getElementById('reqItemPrice').value;
+            const price = parseInt(priceVal);
 
-            if(dataPesananAdmin.length === 0) {
-                wadah.innerHTML = '<p class="text-center text-slate-400 py-8 text-xs">Belum ada pesanan masuk.</p>';
+            if (!name) {
+                showToast('Isi Nama Barang', 'Silakan tulis nama barang yang ingin di-request.', false);
+                return;
+            }
+            if (!price || price <= 0) {
+                showToast('Isi Estimasi Harga', 'Silakan masukkan estimasi harganya.', false);
                 return;
             }
 
-            dataPesananAdmin.forEach(ord => {
-                let listBarang = '';
-                ord.items.forEach(i => {
-                    listBarang += `<li class="text-slate-600">• ${i.name} (${i.qty}x) - Rp ${(i.price * i.qty).toLocaleString('id-ID')}</li>`;
+            const customReqId = 'req_' + Date.now();
+            cart.push({
+                cartUniqueId: customReqId,
+                id: customReqId,
+                name: `[Request ${currentActiveCategory.toUpperCase()}] ${name}`,
+                price: price,
+                qty: 1,
+                image: 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=500&auto=format&fit=crop&q=80'
+            });
+
+            document.getElementById('reqItemName').value = '';
+            document.getElementById('reqItemPrice').value = '';
+
+            updateCartUI();
+            showToast('Request Berhasil!', `"${name}" dimasukkan ke keranjang belanja.`, true);
+        }
+
+        // --- E. LOGIKA KERANJANG BELANJA ---
+        function toggleCartDrawer() {
+            const drawer = document.getElementById('cartDrawer');
+            const backdrop = document.getElementById('cartDrawerBackdrop');
+            if (drawer.classList.contains('translate-x-full')) {
+                drawer.classList.remove('translate-x-full');
+                backdrop.classList.remove('hidden');
+            } else {
+                drawer.classList.add('translate-x-full');
+                backdrop.classList.add('hidden');
+            }
+        }
+
+        function addToCart(productId) {
+            const prod = productsData.find(p => p.id === productId);
+            if (!prod) return;
+
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...prod, qty: 1 });
+            }
+
+            updateCartUI();
+            showToast('Ditambahkan!', `${prod.name} ke keranjang.`, true);
+        }
+
+        function addCustomJasaToCart(productId) {
+            const prod = productsData.find(p => p.id === productId);
+            const inputVal = document.getElementById(`customInput_${productId}`).value;
+            const nominal = parseInt(inputVal);
+
+            if (!nominal || nominal <= 0) {
+                showToast('Nominal Kosong', 'Silakan masukkan nominal uang/jasa terlebih dahulu.', false);
+                return;
+            }
+
+            const customCartId = `${productId}_${nominal}`;
+            const existing = cart.find(item => item.cartUniqueId === customCartId);
+
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({
+                    cartUniqueId: customCartId,
+                    id: productId,
+                    name: `${prod.type} (Rp ${nominal.toLocaleString('id-ID')})`,
+                    price: nominal,
+                    qty: 1,
+                    image: prod.image
                 });
+            }
 
-                wadah.innerHTML += `
-                    <div class="bg-amber-50 border border-amber-300 p-4 rounded-2xl space-y-2 text-xs">
-                        <div class="flex justify-between items-center border-b border-amber-200 pb-2">
-                            <span class="font-extrabold text-amber-900"><i class="fa-solid fa-clock mr-1"></i> ${ord.waktu}</span>
-                            <span class="bg-amber-400 text-amber-950 font-extrabold px-2 py-0.5 rounded text-[10px]">Total: Rp ${ord.total.toLocaleString('id-ID')}</span>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                            <p><strong>Wali Pemesan:</strong> ${ord.wali}</p>
-                            <p><strong>Santri Tujuan:</strong> ${ord.santri} (${ord.kamar})</p>
-                        </div>
-                        <p><strong>Pesan:</strong> ${ord.pesan}</p>
-                        <div>
-                            <p class="font-bold text-slate-700 mt-1">Barang Dibeli:</p>
-                            <ul class="list-disc list-inside space-y-0.5">${listBarang}</ul>
-                        </div>
+            document.getElementById(`customInput_${productId}`).value = '';
+            updateCartUI();
+            showToast('Jasa Ditambahkan!', `${prod.type} Rp ${nominal.toLocaleString('id-ID')} masuk keranjang.`, true);
+        }
+
+        function updateQty(uniqueId, change) {
+            const item = cart.find(i => (i.cartUniqueId || i.id) === uniqueId);
+            if (!item) return;
+
+            item.qty += change;
+            if (item.qty <= 0) {
+                cart = cart.filter(i => (i.cartUniqueId || i.id) !== uniqueId);
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cartItemsContainer');
+            const totalBadge = document.getElementById('cartCountBadge');
+            const totalPriceEl = document.getElementById('cartTotalPrice');
+
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+            totalBadge.innerText = totalItems;
+            totalPriceEl.innerText = `Rp ${totalPrice.toLocaleString('id-ID')}`;
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-center p-6 text-slate-400 space-y-3">
+                        <i class="fa-solid fa-basket-shopping text-5xl text-amber-200"></i>
+                        <p class="text-xs font-bold text-slate-500">Keranjang belanja Anda masih kosong.</p>
                     </div>
                 `;
+                return;
+            }
+
+            container.innerHTML = '';
+            cart.forEach(item => {
+                const keyId = item.cartUniqueId || item.id;
+                const el = document.createElement('div');
+                el.className = "pt-3 first:pt-0 flex items-center justify-between gap-3";
+                el.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <img src="${item.image}" alt="${item.name}" class="w-12 h-12 rounded-xl object-contain bg-amber-50 p-1 border border-slate-200">
+                        <div>
+                            <h4 class="text-xs font-extrabold text-slate-900 line-clamp-1">${item.name}</h4>
+                            <span class="text-[11px] font-bold text-amber-600">Rp ${item.price.toLocaleString('id-ID')}</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2 bg-slate-100 p-1 rounded-xl">
+                        <button onclick="updateQty('${keyId}', -1)" class="w-6 h-6 rounded-lg bg-white text-slate-700 hover:bg-rose-100 hover:text-rose-600 flex items-center justify-center font-black text-xs cursor-pointer">-</button>
+                        <span class="text-xs font-black w-4 text-center">${item.qty}</span>
+                        <button onclick="updateQty('${keyId}', 1)" class="w-6 h-6 rounded-lg bg-white text-slate-700 hover:bg-amber-200 flex items-center justify-center font-black text-xs cursor-pointer">+</button>
+                    </div>
+                `;
+                container.appendChild(el);
             });
         }
 
-        function hapusRiwayat() {
-            if(confirm('Hapus seluruh riwayat pesanan?')) {
-                dataPesananAdmin = [];
-                localStorage.removeItem('rafa_orders');
-                tampilkanPesananAdmin();
+        function togglePenerimaFields() {
+            const type = document.getElementById('penerimaType').value;
+            const fields = document.getElementById('santriRecipientFields');
+            if (type === 'Santri') {
+                fields.classList.remove('hidden');
+            } else {
+                fields.classList.add('hidden');
             }
         }
 
-        // Fungsi Kirim Data Logout ke WhatsApp Kamu
-        function prosesLogoutWA() {
-            const catatan = document.getElementById('catatanLogout').value || 'Tidak ada catatan';
-            const waktuLogout = new Date().toLocaleString('id-ID');
-            const statusPeran = document.getElementById('roleAkunAktif').innerText;
+        // --- F. PROSES CHECKOUT WHATSAPP 089523248631 ---
+        function processWhatsAppCheckout() {
+            if (cart.length === 0) {
+                showToast('Keranjang Kosong', 'Pilih minimal 1 barang sebelum memesan.', false);
+                return;
+            }
 
-            let pesanLogout = `*LAPORAN LOGOUT AKUN - RAFA MART*\n\n` +
-                              `*Status Sesi:* ${statusPeran}\n` +
-                              `*Waktu Keluar:* ${waktuLogout}\n` +
-                              `*Catatan Pengguna:* ${catatan}\n\n` +
-                              `Sesi pengguna telah diakhiri dengan sukses dari sistem koperasi pesantren.`;
+            const inputNamaPengirim = document.getElementById('namaPengirimInput').value.trim();
+            const recipientType = document.getElementById('penerimaType').value;
+            const tgl = document.getElementById('tglPengantaran').value;
+            const jam = document.getElementById('jamPengantaran').value;
 
-            // Membuka WhatsApp langsung ke nomor 089523248631
-            window.open(`https://wa.me/${targetNomorWA}?text=${encodeURIComponent(pesanLogout)}`, '_blank');
-            
-            // Kembalikan ke halaman login utama
-            bukaTab('login');
+            if (!inputNamaPengirim) {
+                showToast('Isi Nama Pemesan', 'Silakan ketikkan nama pemesan/pengirim terlebih dahulu.', false);
+                return;
+            }
+
+            const finalSenderName = `${inputNamaPengirim} (${currentUserRole})`;
+            let recipientInfo = `Diri Sendiri (${inputNamaPengirim})`;
+
+            if (recipientType === 'Santri') {
+                const namaSantri = document.getElementById('namaSantriTujuan').value.trim();
+                const kamarSantri = document.getElementById('kamarSantriTujuan').value.trim();
+                const asramaSantri = document.getElementById('asramaSantriTujuan').value.trim();
+
+                if (!namaSantri || !kamarSantri) {
+                    showToast('Data Belum Lengkap', 'Mohon isi Nama & Kamar Santri tujuan.', false);
+                    return;
+                }
+                recipientInfo = `Santri: ${namaSantri} (Kamar: ${kamarSantri} / Asrama: ${asramaSantri || '-'})`;
+            }
+
+            if (!tgl) {
+                showToast('Pilih Tanggal', 'Tentukan tanggal pengantaran pesanan.', false);
+                return;
+            }
+
+            const now = new Date();
+            const timeStr = `${now.toLocaleDateString('id-ID')} ${now.toLocaleTimeString('id-ID')} WIB`;
+            const orderId = 'ORD-' + Math.floor(1000 + Math.random() * 9000);
+
+            let waText = `*PESANAN BARU - QAF MARKET*\n`;
+            waText += `----------------------------------------\n`;
+            waText += `*ID Pesanan:* ${orderId}\n`;
+            waText += `*Pemesan/Pengirim:* ${finalSenderName}\n`;
+            waText += `*Penerima:* ${recipientInfo}\n`;
+            waText += `*Jadwal Diantar:* ${tgl} (${jam})\n`;
+            waText += `*Waktu Pesan:* ${timeStr}\n\n`;
+            waText += `*RINCIAN BARANG/JASA:* \n`;
+
+            let totalPrice = 0;
+            let itemsSummaryArray = [];
+
+            cart.forEach((item, index) => {
+                const sub = item.price * item.qty;
+                totalPrice += sub;
+                waText += `${index + 1}. ${item.name} (${item.qty}x) = Rp ${sub.toLocaleString('id-ID')}\n`;
+                itemsSummaryArray.push(`${item.name} (${item.qty}x)`);
+            });
+
+            waText += `\n*TOTAL PEMBAYARAN: Rp ${totalPrice.toLocaleString('id-ID')}*\n`;
+            waText += `----------------------------------------\n`;
+            waText += `_Terima kasih Pengurus Kopontren Qaf Market!_`;
+
+            const newHistoryItem = {
+                id: orderId,
+                senderName: finalSenderName,
+                buyerRole: currentUserRole,
+                recipient: recipientInfo,
+                items: itemsSummaryArray.join(', '),
+                total: totalPrice,
+                deliverDate: tgl,
+                deliverTime: jam,
+                status: 'Menunggu Konfirmasi WA',
+                timestamp: timeStr
+            };
+            orderHistory.unshift(newHistoryItem);
+            renderHistory();
+
+            const waNumber = '6289523248631';
+            const encodedText = encodeURIComponent(waText);
+            const waUrl = `https://wa.me/${waNumber}?text=${encodedText}`;
+
+            cart = [];
+            updateCartUI();
+            toggleCartDrawer();
+            showToast('Pesanan Dibuat!', 'Mengarahkan ke WhatsApp...', true);
+
+            setTimeout(() => {
+                window.open(waUrl, '_blank');
+            }, 1000);
         }
 
-        // Muat katalog saat pertama kali dibuka
-        window.onload = function() {
-            tampilkanKatalog();
-        };
+        // --- G. RIWAYAT PESANAN ---
+        function renderHistory() {
+            const container = document.getElementById('historyContainer');
+            container.innerHTML = '';
+
+            if (orderHistory.length === 0) {
+                container.innerHTML = `<p class="text-xs text-slate-400 italic">Belum ada riwayat pesanan.</p>`;
+                return;
+            }
+
+            orderHistory.forEach(ord => {
+                const item = document.createElement('div');
+                item.className = "bg-amber-50/50 border border-amber-200/70 p-4 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs";
+                item.innerHTML = `
+                    <div class="space-y-1">
+                        <div class="flex items-center space-x-2">
+                            <span class="font-black text-amber-950">${ord.id}</span>
+                            <span class="bg-amber-200 text-amber-900 text-[9.5px] font-black px-2 py-0.5 rounded-md">${ord.buyerRole}</span>
+                            <span class="text-slate-400 text-[10px]"><i class="fa-regular fa-clock mr-1"></i>${ord.timestamp}</span>
+                        </div>
+                        <p class="font-extrabold text-slate-900">Pemesan: <span class="text-slate-900">${ord.senderName || ord.buyerRole}</span> &rarr; <span class="text-amber-800">${ord.recipient}</span></p>
+                        <p class="text-slate-600 text-[11px] line-clamp-1"><i class="fa-solid fa-bag-shopping text-amber-600 mr-1"></i>${ord.items}</p>
+                        <div class="text-[10.5px] text-slate-700 font-semibold">
+                            <span>Jadwal Antar: <b>${ord.deliverDate}</b> (${ord.deliverTime})</span>
+                        </div>
+                    </div>
+                    <div class="flex md:flex-col items-center md:items-end justify-between border-t md:border-t-0 pt-2 md:pt-0 border-amber-200">
+                        <span class="text-base font-black text-amber-600">Rp ${ord.total.toLocaleString('id-ID')}</span>
+                        <span class="bg-emerald-100 text-emerald-800 text-[10px] font-extrabold px-2.5 py-1 rounded-full flex items-center">
+                            <i class="fa-solid fa-circle-check mr-1 text-emerald-600"></i> ${ord.status}
+                        </span>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // --- H. JAM & TANGGAL DINAMIS ATAS ---
+        function updateLiveClock() {
+            const now = new Date();
+            const dateOptions = { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' };
+            const dateStr = now.toLocaleDateString('id-ID', dateOptions);
+            const timeStr = now.toLocaleTimeString('id-ID') + ' WIB';
+
+            const elDate = document.getElementById('headerDateStr');
+            const elTime = document.getElementById('headerTimeStr');
+
+            if (elDate) elDate.innerText = dateStr;
+            if (elTime) elTime.innerText = timeStr;
+        }
+        setInterval(updateLiveClock, 1000);
+        updateLiveClock();
+
+        function showToast(title, message, isSuccess = true) {
+            const toast = document.getElementById('toast');
+            const toastIcon = document.getElementById('toastIcon');
+            const toastTitle = document.getElementById('toastTitle');
+            const toastMessage = document.getElementById('toastMessage');
+
+            toastTitle.innerText = title;
+            toastMessage.innerText = message;
+
+            if (isSuccess) {
+                toastIcon.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-400"></i>';
+                toast.classList.remove('border-rose-500');
+                toast.classList.add('border-amber-400');
+            } else {
+                toastIcon.innerHTML = '<i class="fa-solid fa-circle-xmark text-rose-400"></i>';
+                toast.classList.remove('border-amber-400');
+                toast.classList.add('border-rose-500');
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3500);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
     </script>
 </body>
 </html>
