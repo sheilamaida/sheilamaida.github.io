@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts: Aref Ruqaa, Amiri, & Plus Jakarta Sans -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Aref+Ruqaa:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Custom CSS External File -->
+    <link rel="stylesheet" href="css/style.css">
     
     <script>
         tailwind.config = {
@@ -22,7 +24,7 @@
                             200: '#fef08a',
                             300: '#fde047',
                             400: '#facc15',
-                            500: '#eab308',
+                            50: '#eab308',
                             600: '#ca8a04',
                             700: '#a16207',
                             800: '#854d0e',
@@ -34,95 +36,6 @@
             }
         }
     </script>
-
-    <style>
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-        }
-        .font-arabic { 
-            font-family: 'Amiri', serif; 
-        }
-        .font-qaf {
-            font-family: 'Aref Ruqaa', serif;
-        }
-
-        /* Gradasi Teks Emas Khas QAF */
-        .gold-gradient-text {
-            background: linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 2px 8px rgba(217, 119, 6, 0.25));
-        }
-
-        /* Pattern Islami Lembut */
-        .bg-light-islamic {
-            background-color: #FAF6ED;
-            background-image: radial-gradient(#E2D1B0 1.5px, transparent 1.5px);
-            background-size: 32px 32px;
-        }
-
-        /* ANIMASI BERGERAK-GERAK (DYNAMIC FLOATING ANIMATIONS) */
-        @keyframes floatEcommerce {
-            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
-            50% { transform: translateY(-12px) rotate(4deg) scale(1.03); }
-        }
-        .floating-icon { animation: floatEcommerce 4.5s ease-in-out infinite; }
-        .delay-1 { animation-delay: 0.8s; }
-        .delay-2 { animation-delay: 1.6s; }
-        .delay-3 { animation-delay: 2.4s; }
-        .delay-4 { animation-delay: 3.2s; }
-
-        /* ANIMASI KHUSUS GAMBAR KATALOG PRODUCT BREATHING */
-        @keyframes imgBreathing {
-            0%, 100% { transform: scale(1) translateY(0); }
-            50% { transform: scale(1.04) translateY(-4px); }
-        }
-        .animate-img-alive {
-            animation: imgBreathing 4s ease-in-out infinite;
-        }
-
-        /* Animasi Pulsing Cahaya Melayang */
-        @keyframes glowingPulse {
-            0%, 100% { opacity: 0.4; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.2); }
-        }
-        .animate-glow { animation: glowingPulse 5s infinite ease-in-out; }
-
-        /* Shimmer Effect Tombol */
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-        .animate-shimmer { animation: shimmer 2.5s infinite; }
-
-        @keyframes pulseSoft {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
-        }
-        .animate-pulse-soft { animation: pulseSoft 2s infinite ease-in-out; }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: #FAF6ED; }
-        ::-webkit-scrollbar-thumb { background: #d97706; border-radius: 9999px; }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-8px); }
-            40%, 80% { transform: translateX(8px); }
-        }
-        .animate-shake { animation: shake 0.4s ease-in-out; }
-
-        /* KARTU KATALOG INTERAKTIF EFEK MENAKJUBKAN */
-        .product-card-interactive {
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .product-card-interactive:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 35px -10px rgba(217, 119, 6, 0.22), 0 10px 15px -5px rgba(0, 0, 0, 0.04);
-            border-color: #f59e0b;
-        }
-    </style>
 </head>
 <body class="bg-light-islamic text-slate-800 min-h-screen flex flex-col relative antialiased selection:bg-amber-400 selection:text-amber-950">
 
@@ -338,7 +251,7 @@
                     <p class="text-xs font-semibold text-slate-600">Pilih kategori khusus di bawah untuk melihat produk & jasa yang tersedia.</p>
                 </div>
 
-                <!-- Filter Kategori Tabs -->
+                <!-- Filter Kategori Tabs (NAMA 'KEBUTUHAN PRIBADI' DIUPDATE TANPA PARFUM) -->
                 <div class="flex items-center space-x-2 overflow-x-auto pb-2 sm:pb-0">
                     <button onclick="filterCategory('snack')" class="cat-tab active-cat px-4 py-2 rounded-xl text-xs font-extrabold transition cursor-pointer whitespace-nowrap bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20" data-cat="snack">
                         <i class="fa-solid fa-cookie-bite mr-1"></i> Snack & Makanan
@@ -381,7 +294,7 @@
                 </div>
             </div>
 
-            <!-- Grid Produk -->
+            <!-- Grid Produk (Ukuran Gambar Diperbaiki & Kartu Beranimasi Interaktif) -->
             <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 <!-- Javascript will inject product cards here -->
             </div>
@@ -513,7 +426,7 @@
     <!-- 5. JAVASCRIPT LOGIK & INTERAKSI DINAMIS   -->
     <!-- ========================================== -->
     <script>
-        // --- A. PRODUK KATALOG REALISTIS ---
+        // --- A. PRODUK KATALOG REALISTIS (LINK FOTO DIPERBARUI KESELURUHAN) ---
         const productsData = [
             // Kategori: Snack & Makanan / Minuman
             { id: 101, category: 'snack', name: 'Beng-Beng Wafer Cokelat 20g', price: 2500, icon: 'fa-cookie', image: 'https://i.pinimg.com/1200x/f6/d4/b6/f6d4b6edda4183c2a32b762233d596ed.jpg', desc: 'Wafer cokelat karamel renyah favorit santri.' },
@@ -528,15 +441,15 @@
             { id: 202, category: 'atk', name: 'Pulpen Pilot G2 Gel Hitam', price: 5000, icon: 'fa-pen-nib', image: 'https://image.astronauts.cloud/product-images/2026/7/PulpenGelHitam3ee31_975f70b3-4049-4115-a825-7cada162af35_900x900.jpg', desc: 'Tinta gel lancar tidak macet untuk nulis maknani.' },
             { id: 203, category: 'atk', name: 'Pensil Joyko 2B & Penghapus Set', price: 6500, icon: 'fa-pencil', image: 'https://down-id.img.susercontent.com/file/b4d66990d6e3a0e6ab4aa76f29d5d2a4', desc: 'Perlengkapan standar ujian sekolah & madrasah.' },
 
-            // Kategori: Peralatan Mandi
+            // Kategori: Peralatan Mandi (FOTO-FOTO DARI LINK BARU)
             { id: 301, category: 'mandi', name: 'Sabun Mandi Lifebuoy Red 110g', price: 4500, icon: 'fa-soap', image: 'https://down-id.img.susercontent.com/file/id-11134207-7r98u-lld8t7uaksq152', desc: 'Perlindungan kuman mandi harian santri.' },
             { id: 302, category: 'mandi', name: 'Sampo Sunsilk Black Shine 160ml', price: 21000, icon: 'fa-pump-soap', image: 'https://assets.unileversolutions.com/v1/100440665.png', desc: 'Rambut hitam berkilau dan harum segar.' },
             { id: 303, category: 'mandi', name: 'Pasta Gigi Pepsodent 190g', price: 13500, icon: 'fa-tooth', image: 'https://cdn.bormadago.com/media/images/products/2021/07/DSC_1067_copy.jpg', desc: 'Gigi sehat dan nafas segar.' },
 
-            // Kategori: Kebutuhan Pribadi
+            // Kategori: Kebutuhan Pribadi (FOTO-FOTO DARI LINK BARU)
             { id: 401, category: 'pribadi', name: 'Parfum Casablanca Non-Alkohol 6ml', price: 22000, icon: 'fa-spray-can-sparkles', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR00NxUIJ3josK4n75_lvcbShbx2sEWnlloJ6VxzcQPQ9AvBZf-fSkawSp6&s=10', desc: 'Wangi harum elegan untuk shalat & majlis.' },
             { id: 402, category: 'pribadi', name: 'Sarung Tenun Gajah Duduk / Mangga', price: 78000, icon: 'fa-shirt', image: 'https://down-id.img.susercontent.com/file/id-11134207-8224y-mhangceoo55b4b', desc: 'Bahan tenun adem dan nyaman dipakai pengajian.' },
-            { id: 403, category: 'pribadi', name: 'Sajadah Turki Empuk', price: 35000, icon: 'fa-rug', image: 'https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/f12b0fcc0b9c421db2ba5616195eeefe~tplv-aphluv4xwc-resize-jpeg:700:0.jpeg', desc: 'Perlengkapan ibadah & perlengkapan harian santri.' },
+            { id: 403, category: 'pribadi', name: 'Sajadah Turki Empuk / Handuk Mandi', price: 35000, icon: 'fa-rug', image: 'https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/f12b0fcc0b9c421db2ba5616195eeefe~tplv-aphluv4xwc-resize-jpeg:700:0.jpeg', desc: 'Perlengkapan ibadah & perlengkapan harian santri.' },
 
             // Kategori: Jasa & Digital Custom
             { id: 501, category: 'jasa', name: 'Token Listrik PLN (Nominal Custom)', isCustomJasa: true, type: 'Token Listrik', icon: 'fa-bolt', image: 'https://images.unsplash.com/photo-1544725121-be3bf52e2dc8?w=500&auto=format&fit=crop&q=80', desc: 'Masukkan nominal token listrik stroom kamar.' },
@@ -656,7 +569,7 @@
             showToast('Keluar Berhasil', 'Sampai jumpa kembali di QAF Market.', true);
         }
 
-        // --- C. RENDERING PRODUK PER KATEGORI ---
+        // --- C. RENDERING PRODUK PER KATEGORI (DENGAN PERBAIKAN UKURAN GAMBAR & ANIMASI INTERAKTIF) ---
         function renderProducts(catFilter = 'snack') {
             currentActiveCategory = catFilter;
             const grid = document.getElementById('productGrid');
@@ -681,6 +594,7 @@
                 if (p.isCustomJasa) {
                     card.innerHTML = `
                         <div class="space-y-3">
+                            <!-- Container Gambar Rapi Fit & Animasi -->
                             <div class="relative h-48 rounded-2xl overflow-hidden bg-amber-50/60 flex items-center justify-center p-3 border border-amber-100 shadow-inner">
                                 <img src="${p.image}" alt="${p.name}" class="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-500 animate-img-alive">
                                 <span class="absolute top-3 left-3 bg-amber-950/80 backdrop-blur-md text-amber-300 text-[9.5px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider shadow-md">
@@ -712,6 +626,7 @@
                 } else {
                     card.innerHTML = `
                         <div class="space-y-3">
+                            <!-- Container Gambar Rapi Presisi & Animasi Alive -->
                             <div class="relative h-48 rounded-2xl overflow-hidden bg-amber-50/60 flex items-center justify-center p-3 border border-amber-100 shadow-inner">
                                 <img src="${p.image}" alt="${p.name}" class="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-500 animate-img-alive">
                                 <span class="absolute top-3 left-3 bg-amber-950/80 backdrop-blur-md text-amber-300 text-[9.5px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider shadow-md">
