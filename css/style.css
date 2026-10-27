@@ -1,1 +1,86 @@
+body { 
+    font-family: 'Plus Jakarta Sans', sans-serif; 
+}
+.font-arabic { 
+    font-family: 'Amiri', serif; 
+}
+.font-qaf {
+    font-family: 'Aref Ruqaa', serif;
+}
 
+/* Gradasi Teks Emas Khas QAF */
+.gold-gradient-text {
+    background: linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 8px rgba(217, 119, 6, 0.25));
+}
+
+/* Pattern Islami Lembut */
+.bg-light-islamic {
+    background-color: #FAF6ED;
+    background-image: radial-gradient(#E2D1B0 1.5px, transparent 1.5px);
+    background-size: 32px 32px;
+}
+
+/* ANIMASI BERGERAK-GERAK (DYNAMIC FLOATING ANIMATIONS) */
+@keyframes floatEcommerce {
+    0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+    50% { transform: translateY(-12px) rotate(4deg) scale(1.03); }
+}
+.floating-icon { animation: floatEcommerce 4.5s ease-in-out infinite; }
+.delay-1 { animation-delay: 0.8s; }
+.delay-2 { animation-delay: 1.6s; }
+.delay-3 { animation-delay: 2.4s; }
+.delay-4 { animation-delay: 3.2s; }
+
+/* ANIMASI KHUSUS GAMBAR KATALOG PRODUCT BREATHING */
+@keyframes imgBreathing {
+    0%, 100% { transform: scale(1) translateY(0); }
+    50% { transform: scale(1.04) translateY(-4px); }
+}
+.animate-img-alive {
+    animation: imgBreathing 4s ease-in-out infinite;
+}
+
+/* Animasi Pulsing Cahaya Melayang */
+@keyframes glowingPulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.2); }
+}
+.animate-glow { animation: glowingPulse 5s infinite ease-in-out; }
+
+/* Shimmer Effect Tombol */
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+.animate-shimmer { animation: shimmer 2.5s infinite; }
+
+@keyframes pulseSoft {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+}
+.animate-pulse-soft { animation: pulseSoft 2s infinite ease-in-out; }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #FAF6ED; }
+::-webkit-scrollbar-thumb { background: #d97706; border-radius: 9999px; }
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-8px); }
+    40%, 80% { transform: translateX(8px); }
+}
+.animate-shake { animation: shake 0.4s ease-in-out; }
+
+/* KARTU KATALOG INTERAKTIF EFEK MENAKJUBKAN */
+.product-card-interactive {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.product-card-interactive:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 35px -10px rgba(217, 119, 6, 0.22), 0 10px 15px -5px rgba(0, 0, 0, 0.04);
+    border-color: #f59e0b;
+}
